@@ -1,0 +1,143 @@
+.user-profile-dropdown {
+  position: relative;
+  /* margin: 20px; */
+  font-family: Arial, sans-serif;
+  /* float: right; */
+  /* width: 180px; */
+  /* height: 100vh; */
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  /* background: #f0f0f0; */
+  /* padding: 10px; */
+  /* border-radius: 5px; */
+  cursor: pointer;
+  background-color: #1d3853;
+  margin-right: 20px;
+}
+
+.profile-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 73px;
+  left: 0;
+  width: 100%;
+  background: #1d3853;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 450px;
+  margin-left: -289px;
+  padding: 30px;
+}
+
+.dropdown-item {
+  margin-bottom: 10px;
+}
+
+.dropdown-item label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.dropdown-item input,
+.dropdown-item textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.update_btn {
+  background: #579c59;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  font-size: 20px;
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+
+.logout-btn {
+  background: #69ba6b;
+  color: white;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 20px;
+}
+
+.logout-btn:hover {
+  background: #579c59;
+}
+
+.message {
+  margin-top: 10px;
+  color: green;
+  font-size: 14px;
+}
+
+.message.error {
+  color: red;
+}
+
+.phone_row {
+  display: flex;
+  gap: 20px;
+  height: 39px;
+}
+.otp-section {
+  .text {
+    color: rgb(47, 203, 30);
+  }
+}
+.input {
+  border: 1px solid green;
+}
+input:disabled {
+  background-color: white;
+  opacity: 1;
+  color: rgb(217, 210, 210);
+}
+.mobile_number {
+  font-size: 14px;
+}
+textarea:disabled {
+  background-color: white;
+  opacity: 1;
+  color: rgb(217, 210, 210);
+}
+
+@media screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .dropdown-menu {
+    width: 300px;
+    top: 68px;
+    margin-left: -149px;
+    padding: 20px;
+  }
+  .profile-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* margin-right: 10px; */
+    /* font-size: 20px; */
+  }
+}

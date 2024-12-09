@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.my-properties {
+  padding: 20px;
+}
+
+.My_properties_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.my_pr_heading {
+  font-size: 45px;
+  color: #098666;
+}
+table {
+  width: 100%;
+  font-size: 16px;
+  text-align: center;
+  border: 1px;
+}
+.table_heading{
+  font-size: 20px;
+  border: 1px solid black !important;
+}
+th,
+td {
+  padding: 12px;
+  border: 1px solid !important;
+}
+
+th {
+  background-color:#28a6a5 !important;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-container {
+  overflow-x: auto; /* Enable horizontal scroll on smaller screens */
+}
+
+/* Responsive Design */
+@media screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .My_properties_container {
+    overflow-x: scroll;
+  }
+ 
+}

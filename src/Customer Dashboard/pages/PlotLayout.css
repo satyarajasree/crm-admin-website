@@ -1,0 +1,97 @@
+.phase-selection {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  label {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+    font-size: 30px;
+    font-weight: 600;
+    font-family: "Arial", sans-serif; 
+   
+  }
+}
+
+.plot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+.plot_layout {
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.plot {
+  border: 1px solid #000;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.plot.available {
+  background-color: green;
+}
+
+.plot.sold {
+  background-color: red;
+}
+.phase-selection {
+  select {
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 12px;
+    width: 70%;
+    font-size: 20px;
+    border: 1px solid;
+  }
+}
+.plot_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-direction: column;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 30px;
+  padding: 20px;
+
+  h4 {
+    font-size: 30px;
+    font-weight: 600;
+  }
+  .pg_text {
+    font-size: 18px;
+    font-weight: normal;
+  }
+  margin-top: 50px;
+  .check_box {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+  label {
+    font-size: 17px;
+  }
+  .book_now_button {
+    font-size: 20px;
+    width: 30%;
+    padding: 10px;
+    border-radius: 30px;
+  }
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .plot_text {
+    .book_now_button {
+      width: 100%;
+    }
+  }
+}

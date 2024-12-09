@@ -1,0 +1,54 @@
+.crm-sidebar .sidebar {
+  overflow: hidden;
+  background: #1D3853;
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  scrollbar-width:  none;
+  padding: 0px 0px ;
+}
+
+.crm-sidebar .list .list-item{
+    color: white;
+    align-items: center;
+    padding-left: 30%;
+    border-bottom: 1px solid gray;
+    border-radius: 0px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.crm-sidebar .list .list-item-main{
+    color: white;
+    justify-content: space-between;
+    text-align: justify;
+   
+}
+
+.crm-sidebar  .list-item:hover{
+    background-color: grey;
+    color: white;
+    border-radius: 0px;
+}
+
+.crm-sidebar .list .list-item-main:hover{
+    background-color: grey;
+    color: white;
+    border-radius: 0px;
+    border-radius: 20px;
+}
+
+.crm-sidebar .navbar{
+    height: 50px;
+    width: 100%;
+    background-color: #2C2F33;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+}

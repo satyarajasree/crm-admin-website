@@ -1,0 +1,163 @@
+.land_details {
+  border-radius: 20px;
+  background-image: linear-gradient(#d7ecdc, rgb(32, 227, 32));
+
+  padding: 20px;
+  line-height: 40px;
+  margin-top: 20px;
+  width: 70%;
+  margin: 20px auto;
+  padding-bottom: 50px;
+}
+.lands_label {
+  display: flex;
+  justify-content: center;
+  font-family: "Arial", sans-serif; /* Customize the font family */
+  /* color: #333; Dark color for "Future" */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  font-weight: bold;
+  font-size: 35px;
+  margin-bottom: 20px;
+  
+}
+
+.available_label {
+  color: rgb(50, 121, 39);
+}
+.select {
+  padding: 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  width: 100%;
+  border: 1px solid green;
+  font-size: 20px;
+}
+
+.amount_selection {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  font-size: 30px;
+
+  input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  label {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+}
+.content {
+  h4 {
+    font-size: 35px;
+  }
+}
+.details {
+  margin-top: 20px;
+  width: 36%;
+
+}
+.pay_now_btn {
+  padding: 10px 20px;
+  background-color: #69ba6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 20px;
+  
+}
+
+
+button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* h4 {
+  margin-top: 10px;
+} */
+
+.terms_text {
+  margin: 5px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.amount_details {
+  border-radius: 20px;
+  padding: 10px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  background-image: linear-gradient(#d7ecdc, rgb(32, 227, 32));
+
+  p {
+    font-weight: 750;
+    color: red;
+    font-size: 10px;
+  }
+}
+.land {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+  max-height: none; /* Allow the container to expand */
+  height: auto; /* Remove fixed height */
+  overflow: visible; /* Ensure dropdown is visible */
+}
+
+.plot_container {
+  width: 100%;
+  margin-top: 20px;
+  /* background-color: whitesmoke; */
+  border-radius: 20px;
+  /* padding: 20px; */
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .land_details {
+    width: 100%;
+  }
+  .amount_details {
+    width: 100%;
+  }
+  .plot_container {
+    width: 100%;
+  }
+  .pay_now_btn {
+    width: 100%;
+  }
+  .content {
+    h4 {
+      font-size: 31px;
+    }
+  }
+  .terms_text {
+    font-size: 15px;
+  }
+  .amount_details {
+    p {
+      font-size: 10px;
+    }
+  }
+  .details {
+    
+    width: 100%;
+  
+  }
+  .pay_now_btn {
+   width: 100%;
+}
+
+}

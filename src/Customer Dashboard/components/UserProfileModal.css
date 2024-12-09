@@ -1,0 +1,69 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    width: 500px;
+    height: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-right: 3%;
+  }
+  
+  .modal h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+  
+  .modal p {
+    margin: 0 0 20px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* width: 400px; */
+    gap: 20px;
+  }
+  
+  .modal-buttons .btn {
+    /* padding: 10px 20px; */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 50px;
+  }
+  
+  .modal-buttons .btn:first-child {
+    background-color: #7db47f;
+    color: white;
+  }
+  
+  .modal-buttons .btn:last-child {
+    background-color: #f27f77;
+    color: white;
+  }
+ .otp-section{
+  color: black;
+ }
+
+.btn{
+  background-color: #69ba6b;
+}
+.btn:hover{
+  background-color: #549755;
+
+}

@@ -1,0 +1,26 @@
+.location_page {
+  background-color: whitesmoke;
+  border-radius: 20px;
+}
+
+.location {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  
+}
+
+.line_gap{
+    line-height: 1rem;
+}
+
+.addres_part {
+  .icon {
+    color: rgb(63, 120, 28);
+    margin-top: 3px;
+  }
+
+  .location_icon{
+    margin-top: -3px;
+  }
+}

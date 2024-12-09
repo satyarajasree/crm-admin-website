@@ -1,0 +1,84 @@
+/* form.css */
+
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+    height: 100vh;
+  }
+
+  .login-container .form-container h3{
+    color: #098666;
+    font-style: italic;
+    font-family: georgia;
+    padding-top: 10px;
+  }
+  
+  .login-container .form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 30%;
+    
+  }
+  
+  .login-container .form-heading {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .login-container .form-group {
+    margin-bottom: 20px;
+    padding: 0px 20px;
+  }
+  
+  /* Wrapper for input and icon */
+  .login-container .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .login-container .img{
+    border: 1px solid grey;
+  }
+  
+  .login-container .icon {
+    position: absolute;
+    left: 10px;
+    color: black;
+    font-size: 16px;
+  }
+  
+  .login-container .form-control {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Add left padding for icon space */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .login-container .btn-submit {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    background-color: #098666;
+    color: white;
+
+  }
+  
+  /* Responsive design for mobile screens */
+  @media (max-width: 768px) {
+    .login-container .form-container {
+      width: 90%;
+      padding: 40px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+  

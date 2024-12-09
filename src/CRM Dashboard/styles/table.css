@@ -1,0 +1,18 @@
+.main .table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders */
+  }
+  
+ .main .table th, .table td {
+    border: 1px solid #ddd; /* Adds border to each cell */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+   
+  }
+  
+ .main .table tr {
+    border-bottom: 1px solid #ddd; /* Adds border to rows (optional) */
+  }
+  
+  
+  

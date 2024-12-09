@@ -1,0 +1,123 @@
+.available_pro_cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-wrap: wrap; */
+  flex-direction: column;
+}
+
+.Amenities_property_text {
+  width: 80%;
+  font-size: 18px;
+  padding: 5px;
+  line-height: 2;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 24px;
+  padding: 20px;
+  border-radius: 20px;
+  h2 {
+    font-size: 48px;
+    font-weight: 600;
+    font-size: 48px; /* Adjust size as needed */
+    font-weight: bold;
+    font-family: "Arial", sans-serif; /* Customize the font family */
+    color: #333; /* Dark color for "Future" */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    text-align: center;
+  }
+}
+
+.hyd_pro_con {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pro_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 83%;
+}
+
+.hyd_property_text {
+  width: 100%;
+  font-size: 18px;
+  padding: 5px;
+  line-height: 2;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 50px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.column-text {
+  width: 40%;
+  text-align: center;
+  font-size: 80px;
+  margin-top: 25px;
+}
+.future-text {
+  font-size: 60px;
+}
+.amenities_column {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin: 20px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+  }
+}
+.terms{
+  width: 100%; 
+  margin: 0 auto;
+}
+
+
+@media screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+  .Amenities_property_text {
+    width: 90%;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      text-shadow: 3px 3px 5px rgba(0, 128, 0, 0.5); /* Green glow effect */
+    }
+  }
+
+  .future-text {
+    font-size: 30px;
+  }
+
+  .hyd_pro_con {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hyd_property_text {
+    margin: 24px;
+  }
+  .amenities_column {
+ 
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin: 20px;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+    }
+  }
+ 
+  .pro_container {
+    width: 100%;
+  }
+}

@@ -1,0 +1,19 @@
+.text-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.future-text {
+  font-size: 48px; /* Adjust size as needed */
+  font-weight: bold;
+  font-family: "Arial", sans-serif; /* Customize the font family */
+  color: #333; /* Dark color for "Future" */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.green-text {
+  color: #28a745; /* Green color for "Green City" */
+  font-style: italic; /* Italicize "Green City" */
+  text-shadow: 3px 3px 5px rgba(0, 128, 0, 0.5); /* Green glow effect */
+  font-family: "Times New Roman", serif; /* Different font family */
+}

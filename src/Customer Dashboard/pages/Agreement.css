@@ -1,0 +1,16 @@
+.conditions {
+  h1 {
+    font-size: 50px;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 30px;
+    font-weight: 600;
+  }
+}
+
+.signature_cont {
+  border: 1px solid;
+  width: 20%;
+}
+

@@ -1,0 +1,76 @@
+.invoice-table {
+    width: 80%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  #table-heading{
+    font-size: 22px;
+    border: 1px solid black !important;
+  }
+  .invoice-table th {
+    padding: 12px;
+    text-align: center;
+  }
+ 
+  .invoice-table td {
+   
+    padding: 12px;
+    text-align: center;
+ 
+  }
+ 
+  .invoice-table th {
+    background-color: #0a8748;
+    color: white;
+    font-weight: bold;
+  }
+ 
+  .invoice-table tr:nth-child(even) {
+   
+    background-color: #f9f9f9;
+  }
+ 
+  .invoice-table tr:hover {
+    background-color: #f1f1f1;
+  }
+ 
+ h2{
+    margin-top: 30px;
+    color: #28a745; /* Match the green theme */
+    text-align: center;
+ }
+  .view-btn,
+  .download-btn {
+    background-color: #007bff;
+    color: white;
+    /* border: none; */
+    border-radius: 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+ 
+  .download-btn {
+ 
+    background-color: #28a745;
+  }
+ 
+  .view-btn:hover {
+ 
+    background-color: #0056b3;
+  }
+ 
+  .download-btn:hover {
+ 
+    background-color: #218838;
+  }
+ 
+  .invoice-table td button + button {
+ 
+    margin-left: 8px;
+  }
+ 
+ 

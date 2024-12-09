@@ -1,0 +1,34 @@
+.chatbot-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1000;
+    display: none;
+    background-color: aqua;
+  }
+  
+  .chatbot-container.open {
+    display: block;
+    background-color: aqua;
+  }
+  
+  .floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: #381c1c;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1000;
+  }
+  
+  .floating-button:hover {
+    background-color: tomato;
+  }
+  
