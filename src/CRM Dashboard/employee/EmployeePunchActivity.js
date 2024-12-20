@@ -235,7 +235,7 @@ export const EmployeePunchActivity = () => {
                         <td>{p["S.No"]}</td>
                         <td>{p["Employee Name"]}</td>
                         <td>{p.Date}</td>
-                        <td>{p["Punch-in Time"]}</td>
+                        <td>{p["Punch-in Image"]}</td>
 
                         <td>
                           {p.punchInImage ? (
