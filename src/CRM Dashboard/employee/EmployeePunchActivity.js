@@ -54,37 +54,53 @@ export const EmployeePunchActivity = () => {
   };
 
   const handleExportToExcel = () => {
-    const filteredPunch = getFilteredPunchData();
-    const worksheet = XLSX.utils.json_to_sheet(filteredPunch);
+    const excelData = getExcelData();
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Punch Activities");
     XLSX.writeFile(workbook, "PunchActivities.xlsx");
   };
 
   const getFilteredPunchData = () => {
-    return punch
-      .filter((p) => {
-        const punchDate = new Date(p.date);
-        const from = fromDate ? new Date(fromDate) : null;
-        const to = toDate ? new Date(toDate) : null;
+    return punch.filter((p) => {
+      const punchDate = new Date(p.date);
+      const from = fromDate ? new Date(fromDate) : null;
+      const to = toDate ? new Date(toDate) : null;
 
-        return (
-          (!selectedEmployee || p.crmEmployee.fullName === selectedEmployee) &&
-          (!from || punchDate >= from) &&
-          (!to || punchDate <= to)
-        );
-      })
-      .map((p, index) => ({
-        "S.No": index + 1,
-        "Employee Name": p.crmEmployee.fullName || "N/A",
-        Date: p.date,
-        "Punch-in Time": formatTime(p.timeOfPunchIn),
-        "Punch-out Time": formatTime(p.timeOfPunchOut),
-        "Login Time": p.workedHours || "N/A",
-        "Work Report": p.workReport || "N/A",
-        "Punch-in Image": p.punchInImage ? "Image" : "N/A",
-        "Punch-out Image": p.punchOutImage ? "Image" : "N/A",
-      }));
+      return (
+        (!selectedEmployee || p.crmEmployee.fullName === selectedEmployee) &&
+        (!from || punchDate >= from) &&
+        (!to || punchDate <= to)
+      );
+    });
+  };
+
+  const getTableData = () => {
+    return getFilteredPunchData().map((p, index) => ({
+      "S.No": index + 1,
+      "Employee Name": p.crmEmployee.fullName || "N/A",
+      Date: p.date,
+      "Punch-in Time": formatTime(p.timeOfPunchIn),
+      "Punch-out Time": formatTime(p.timeOfPunchOut),
+      "Login Time": p.workedHours || "N/A",
+      "Work Report": p.workReport || "N/A",
+      punchInImage: p.punchInImage,
+      punchOutImage: p.punchOutImage,
+    }));
+  };
+
+  const getExcelData = () => {
+    return getFilteredPunchData().map((p, index) => ({
+      "S.No": index + 1,
+      "Employee Name": p.crmEmployee.fullName || "N/A",
+      Date: p.date,
+      "Punch-in Time": formatTime(p.timeOfPunchIn),
+      "Punch-out Time": formatTime(p.timeOfPunchOut),
+      "Login Time": p.workedHours || "N/A",
+      "Work Report": p.workReport || "N/A",
+      "Punch-in Image": p.punchInImage ? "Image" : "N/A",
+      "Punch-out Image": p.punchOutImage ? "Image" : "N/A",
+    }));
   };
 
   useEffect(() => {
@@ -92,7 +108,7 @@ export const EmployeePunchActivity = () => {
     fetchAllEmployees();
   }, []);
 
-  const filteredPunch = getFilteredPunchData();
+  const filteredPunch = getTableData();
 
   return (
     <div>
@@ -238,48 +254,36 @@ export const EmployeePunchActivity = () => {
                         <td>{p["Punch-in Time"]}</td>
 
                         <td>
-                          {p["Punch-in Image"] !== "N/A" ? (
+                          {p.punchInImage ? (
                             <img
-                              src={`data:image/jpeg;base64,${p["Punch-in Image"]}`}
+                              src={`data:image/jpeg;base64,${p.punchInImage}`}
                               alt="Punch-in"
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>{p["Punch-in Image"]}</span>
+                            <span>No Image</span>
                           )}
                         </td>
-                       
-
                         <td>{p["Punch-out Time"]}</td>
-
                         <td>
-                          {p["Punch-out Image"] !== "N/A" ? (
+                          {p.punchOutImage ? (
                             <img
-                              src={`data:image/jpeg;base64,${p["Punch-out Image"]}`}
+                              src={`data:image/jpeg;base64,${p.punchOutImage}`}
                               alt="Punch-out"
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>{p["Punch-out Image"]}</span>
+                            <span>No Image</span>
                           )}
                         </td>
-
                         <td>{p["Login Time"]}</td>
                         <td>{p["Work Report"]}</td>
-                        <td>
-                          <button
-                            className="btn btn-danger btn-sm"
-                            onClick={() => console.log("Update action")}
-                          >
-                            Update
-                          </button>
-                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan="10" className="text-center">
-                        No Punch Activities Found
+                        No records found.
                       </td>
                     </tr>
                   )}
