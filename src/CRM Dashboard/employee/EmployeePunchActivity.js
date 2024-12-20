@@ -37,7 +37,6 @@ export const EmployeePunchActivity = () => {
       setLoading(true);
       const response = await api.get(`${API_BASE_URL}/crm/admin/punch/all`);
       setPunch(response.data);
-      console.log(response.data)
     } catch (err) {
       console.log(err);
     } finally {
@@ -236,13 +235,7 @@ export const EmployeePunchActivity = () => {
                         <td>{p["Employee Name"]}</td>
                         <td>{p.Date}</td>
                         <td>{p["Punch-in Time"]}</td>
-                        <td>
-                          <img
-                            src={`data:image/jpeg;base64,${p.punchInImage}`}
-                            alt="Punch-in"
-                            style={{ width: "50px", height: "50px" }}
-                          />
-                        </td>
+                        
                         <td>
                           {p.punchInImage ? (
                             <img
@@ -251,7 +244,7 @@ export const EmployeePunchActivity = () => {
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>No Image</span>
+                            <span>{p.punchInImage}</span>
                           )}
                         </td>
                         <td>{p["Punch-out Time"]}</td>
@@ -264,7 +257,7 @@ export const EmployeePunchActivity = () => {
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>No Image</span>
+                            <span>{p.punchOutImage}</span>
                           )}
                         </td>
 
