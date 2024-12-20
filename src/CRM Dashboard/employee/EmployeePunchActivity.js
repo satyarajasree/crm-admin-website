@@ -229,27 +229,23 @@ export const EmployeePunchActivity = () => {
                         <td>{p.Date}</td>
                         <td>{p["Punch-in Time"]}</td>
                         <td>
-                          {p.punchInImage ? (
+                          
                             <img
                               src={`data:image/jpeg;base64,${p.punchInImage}`}
                               alt="Punch-in"
                               style={{ width: "50px", height: "50px" }}
                             />
-                          ) : (
-                            "No Image"
-                          )}
+                         
                         </td>
                         <td>{p["Punch-out Time"]}</td>
                         <td>
-                          {p.punchOutImage ? (
+                          
                             <img
                               src={`data:image/jpeg;base64,${p.punchOutImage}`}
                               alt="Punch-out"
                               style={{ width: "50px", height: "50px" }}
                             />
-                          ) : (
-                            "No Image"
-                          )}
+                         
                         </td>
                         <td>{p["Login Time"]}</td>
                         <td>{p["Work Report"]}</td>
