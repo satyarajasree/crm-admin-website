@@ -3,8 +3,9 @@ import { Base } from "../components/Base";
 import { Breadcrumbs, Link } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Swal from "sweetalert2";
-import useAxios from '../auth/useAxios'
-import {API_BASE_URL} from "../auth/Api"
+import useAxios from "../auth/useAxios";
+import { API_BASE_URL } from "../auth/Api";
+import CircularProgress from "@mui/material/CircularProgress";  // Import CircularProgress
 
 export const AddShift = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export const AddShift = () => {
     startTime: { hour: "12", minute: "00", period: "AM" },
     endTime: { hour: "12", minute: "00", period: "AM" },
   });
+  const [loading, setLoading] = useState(false);  // Add loading state
 
   const api = useAxios();
 
@@ -41,12 +43,14 @@ export const AddShift = () => {
     const formattedStartTime = `${formData.startTime.hour}:${formData.startTime.minute} ${formData.startTime.period}`;
     const formattedEndTime = `${formData.endTime.hour}:${formData.endTime.minute} ${formData.endTime.period}`;
 
+    setLoading(true); // Set loading to true when form is submitted
+
     try {
       const response = await api.post(`${API_BASE_URL}/crm/admin/post-shift`, {
         ...formData,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-      },[api]);
+      });
 
       // Reset form data
       setFormData({
@@ -54,6 +58,7 @@ export const AddShift = () => {
         startTime: { hour: "12", minute: "00", period: "AM" },
         endTime: { hour: "12", minute: "00", period: "AM" },
       });
+      setLoading(false); // Stop loading after response
 
       Swal.fire({
         title: "Shift created successfully!",
@@ -61,6 +66,7 @@ export const AddShift = () => {
         icon: "success",
       });
     } catch (error) {
+      setLoading(false); // Stop loading if error occurs
       console.error("Error creating shift:", error);
       Swal.fire({
         title: "Error!",
@@ -103,10 +109,7 @@ export const AddShift = () => {
           paddingRight: "20px",
         }}
       >
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-        >
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
           <Link
             underline="hover"
             key="1"
@@ -125,11 +128,13 @@ export const AddShift = () => {
           >
             Add Shift
           </Link>
-          
         </Breadcrumbs>
       </div>
+
       <div className="container" style={{ width: "70%" }}>
-        <h2 className="text-center fw-bold" style={{ color: "darkslategrey" }}>Add Shift</h2>
+        <h2 className="text-center fw-bold" style={{ color: "darkslategrey" }}>
+          Add Shift
+        </h2>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <hr style={{ width: "90%" }} />
         </div>
@@ -224,8 +229,12 @@ export const AddShift = () => {
 
           {/* Submit Button */}
           <div className="form-group mb-3" style={{ display: "flex", justifyContent: "center" }}>
-            <button type="submit" className="btn btn-dark">
-              Create Shift
+            <button type="submit" className="btn btn-dark" disabled={loading}>
+              {loading ? (
+                <CircularProgress size={24} style={{ color: "white" }} />
+              ) : (
+                "Create Shift"
+              )}
             </button>
           </div>
         </form>

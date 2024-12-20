@@ -5,17 +5,20 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import useAxios from "../auth/useAxios";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const AddHolidays = () => {
   const [holidayDate, setHolidayDate] = useState("");
   const [reasonForHoliday, setReasonForHoliday] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [departments, setDepartments] = useState([]);
-  const api = useAxios()
+  const [loading, setLoading] = useState(false); // Added loading state
+  const api = useAxios();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     try {
       const response = await api.post(
@@ -33,13 +36,20 @@ export const AddHolidays = () => {
       setHolidayDate("");
       setReasonForHoliday("");
       setDepartmentId("");
+      setLoading(false); // Stop loading
       console.log(response.data);
       Swal.fire({
         title: `Holiday set to date ${holidayDate}`,
         text: `On the Occasion of ${reasonForHoliday}`,
       });
     } catch (error) {
+      setLoading(false); // Stop loading
       console.error("Error adding holiday:", error);
+      Swal.fire({
+        title: "Error",
+        text: "There was an error adding the holiday.",
+        icon: "error",
+      });
     }
   };
 
@@ -79,8 +89,13 @@ export const AddHolidays = () => {
           >
             Home
           </Link>
-          
-          <Link underline="hover" key="3" color="inherit" href="/add-holiday" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+          <Link
+            underline="hover"
+            key="3"
+            color="inherit"
+            href="/add-holiday"
+            sx={{ color: "darkslategrey", fontWeight: "bold" }}
+          >
             Add Holiday
           </Link>
         </Breadcrumbs>
@@ -193,8 +208,13 @@ export const AddHolidays = () => {
                 cursor: "pointer",
                 fontSize: "16px",
               }}
+              disabled={loading} // Disable button while loading
             >
-              Submit
+              {loading ? (
+                <CircularProgress size={24} style={{ color: "white" }} />
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </form>
