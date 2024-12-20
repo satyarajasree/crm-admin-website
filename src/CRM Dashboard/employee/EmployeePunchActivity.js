@@ -82,8 +82,8 @@ export const EmployeePunchActivity = () => {
         "Punch-out Time": formatTime(p.timeOfPunchOut),
         "Login Time": p.workedHours || "N/A",
         "Work Report": p.workReport || "N/A",
-        "PunchInImage": p.punchInImage,
-        "punchOutImage":p.punchOutImage
+        "punchInImage": p.punchInImage ? "Image" : "N/A",
+        "punchOutImage": p.punchOutImage ? "Image" : "N/A",
       }));
   };
 
@@ -236,7 +236,7 @@ export const EmployeePunchActivity = () => {
                         <td>{p["Employee Name"]}</td>
                         <td>{p.Date}</td>
                         <td>{p["Punch-in Time"]}</td>
-                        
+
                         <td>
                           {p.punchInImage ? (
                             <img
@@ -249,7 +249,7 @@ export const EmployeePunchActivity = () => {
                           )}
                         </td>
                         <td>{p["Punch-out Time"]}</td>
-                        
+
                         <td>
                           {p.punchOutImage ? (
                             <img
