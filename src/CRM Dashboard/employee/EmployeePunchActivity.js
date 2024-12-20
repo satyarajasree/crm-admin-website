@@ -82,8 +82,8 @@ export const EmployeePunchActivity = () => {
         "Punch-out Time": formatTime(p.timeOfPunchOut),
         "Login Time": p.workedHours || "N/A",
         "Work Report": p.workReport || "N/A",
-        "punchInImage": p.punchInImage ,
-        "punchOutImage": p.punchOutImage ,
+        "Punch-in Image": p.punchInImage ? "Image" : "N/A",
+      "Punch-out Image": p.punchOutImage ? "Image" : "N/A"
       }));
   };
 
@@ -240,7 +240,7 @@ export const EmployeePunchActivity = () => {
                         <td>
                           {p.punchInImage ? (
                             <img
-                              src={`data:image/jpeg;base64,${p.punchInImage}`}
+                              src={`data:image/jpeg;base64,{p["Punch-in Image]}`}
                               alt="Punch-in"
                               style={{ width: "50px", height: "50px" }}
                             />
@@ -253,7 +253,7 @@ export const EmployeePunchActivity = () => {
                         <td>
                           {p.punchOutImage ? (
                             <img
-                              src={`data:image/jpeg;base64,${p.punchOutImage}`}
+                            src={`data:image/jpeg;base64,{p["Punch-out Image]}`}
                               alt="Punch-out"
                               style={{ width: "50px", height: "50px" }}
                             />
