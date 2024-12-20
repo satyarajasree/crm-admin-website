@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const EditEmployee = () => {
   const { empId } = useParams();
@@ -27,7 +28,7 @@ export const EditEmployee = () => {
     const fetchEmployeeData = async () => {
       try {
         const response = await api.get(
-          `https://crm-java.onrender.com/crm/admin/crm/crm-employee/${empId}`
+          `${API_BASE_URL}/crm/admin/crm/crm-employee/${empId}`
         );
         const data = response.data;
 
@@ -82,7 +83,7 @@ export const EditEmployee = () => {
 
     try {
       await api.put(
-        `https://crm-java.onrender.com/crm/admin/crm/edit-crm-employee/${empId}`,
+        `${API_BASE_URL}/crm/admin/crm/edit-crm-employee/${empId}`,
         formData
       );
       Swal.fire({

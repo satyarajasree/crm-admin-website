@@ -14,7 +14,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useAxios from "../auth/useAxios";
-
+import { ClipLoader } from "react-spinners";
+import {API_BASE_URL} from "../auth/Api"
 
 export const EmployeeDetails = () => {
   const { empId } = useParams();
@@ -29,15 +30,15 @@ export const EmployeeDetails = () => {
     const fetchEmployee = async () => {
       try {
         const response = await api.get(
-          `https://crm-java.onrender.com/crm/admin/crm/crm-employee/${empId}`
+          `${API_BASE_URL}/crm/admin/crm/crm-employee/${empId}`
         );
         // Assuming the API returns an employee object directly
         const empData = response.data;
 
-         // Calculate `validUntil` date - 2 years from today
-         const joinDate = new Date(empData.dateOfJoining);
-         const validUntil = new Date(joinDate);
-         validUntil.setFullYear(validUntil.getFullYear() + 2);
+        // Calculate `validUntil` date - 2 years from today
+        const joinDate = new Date(empData.dateOfJoining);
+        const validUntil = new Date(joinDate);
+        validUntil.setFullYear(validUntil.getFullYear() + 2);
 
         const employeeWithStatus = {
           ...empData,
@@ -55,14 +56,7 @@ export const EmployeeDetails = () => {
     fetchEmployee();
   }, [empId, api]);
 
-  if (loading)
-    return (
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
-      >
-        <CircularProgress />
-      </div>
-    );
+  
 
   if (error)
     return (
@@ -71,8 +65,7 @@ export const EmployeeDetails = () => {
       </Typography>
     );
 
-  if (!employee)
-    return <Typography align="center">Employee not found</Typography>;
+ 
 
   const handleDelete = async (empId, fullName) => {
     const confirmed = await Swal.fire({
@@ -88,7 +81,7 @@ export const EmployeeDetails = () => {
     if (confirmed.isConfirmed) {
       try {
         await api.delete(
-          `https://crm-java.onrender.com/crm/admin/crm/delete-crm-employees/${empId}`
+          `${API_BASE_URL}/crm/admin/crm/delete-crm-employees/${empId}`
         );
         Swal.fire("Deleted!", "Your employee has been deleted.", "success");
         navigate("/list-employees");
@@ -109,208 +102,224 @@ export const EmployeeDetails = () => {
 
   return (
     <Base>
-       <div
-        className="pt-3 mt-5 d-flex align-items-center"
-        style={{
-          justifyContent: "space-between",
-          paddingRight: "20px",
-        }}
-      >
-        <Button
-          variant="text"
-          startIcon={<ArrowBackIcon />}
-          onClick={() => navigate(-1)}
-          style={{
-            color: "darkslategrey",
-            fontWeight: "bold",
-            textTransform: "none",
-          }}
-        >
-          Back
-        </Button>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-        >
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/"
-            sx={{ color: "darkslategrey", fontWeight: "bold" }}
-          >
-            Home
-          </Link>
-          <Link
-            underline="none"
-            color="inherit"
-            href=""
-            sx={{ color: "darkslategrey", fontWeight: "bold" }}
-          >
-            Employees
-          </Link>
-          <Link underline="hover" color="inherit" href="add-employee">
-            List Employees
-          </Link>
-        </Breadcrumbs>
-      </div>
-
-      <div className="container mt-4">
-        <div className="row">
-          <div className="col-md-8">
-            <Typography
-              variant="h4"
-              color="success"
-              style={{ fontWeight: "bolder" }}
-              gutterBottom
-            >
-              {employee.id}. {employee.fullName}
-            </Typography>
-            <hr />
-            {/** Map through employee details for better code maintenance */}
-            {[
-              { label: "Email", value: employee.email },
-              { label: "Designation", value: employee.jobTitle },
-              { label: "Mobile", value: employee.mobile },
-              { label: "Branch", value: employee.branchName },
-              { label: "Address", value: employee.address },
-              {
-                label: "Shift Time",
-                value: `${employee.shifts.shiftName} (${employee.shifts.startTime} to ${employee.shifts.endTime})`,
-              },
-              { label: "Department", value: employee.departments.department },
-              {
-                label: "Status",
-                value: employee.isActive ? "Active" : "Inactive",
-                color: employee.isActive ? "green" : "red",
-              },
-            ].map(({ label, value, color }) => (
-              <div className="row pt-2" key={label}>
-                <div className="col-md-3">
-                  <h6>{label}</h6>
-                </div>
-                <div className="col-md-9">
-                  <h6
-                    className="text-secondary"
-                    style={{ color }}
-                  >{`: ${value}`}</h6>
-                </div>
-                <hr
-                  style={{
-                    width: "80%",
-                    margin: "0 12px",
-                    border: "none",
-                    borderTop: "1px solid black",
-                  }}
-                />
-              </div>
-            ))}
-
-            <div className="row">
-              <div className="col-md-6">
-                <Typography
-                  variant="h6"
-                  style={{
-                    padding: "10px",
-                    color: "darkslategrey",
-                    fontWeight: "bolder",
-                  }}
-                >
-                  Employee Govt.ID Proof
-                </Typography>
-                <img
-                  src={`https://crm-java.onrender.com/crm/admin/crm${employee.idCardPath}`}
-                  alt="Employee Profile"
-                  className="rounded"
-                  style={{
-                    width: "80%",
-                    borderRadius: "5px",
-                    border: "2px solid grey",
-                  }}
-                />
-              </div>
-
-              <div className="col-md-6">
-                <Typography
-                  variant="h6"
-                  style={{
-                    padding: "10px",
-                    color: "darkslategrey",
-                    fontWeight: "bolder",
-                  }}
-                >
-                  Employee Profile Image 
-                </Typography>
-                <img
-                  src={`https://crm-java.onrender.com/crm/admin/crm${employee.profileImagePath}`}
-                  alt="Employee Profile"
-                  className="rounded"
-                  style={{
-                    width: "80%",
-                    borderRadius: "5px",
-                    border: "2px solid grey",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <hr style={{ width: "80%", marginTop: "55px" }} />
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              style={{ paddingBottom: "10px" }}
-            >
-              Employee Id card 
-            </Typography>
-
-            <div className="container">
-              <div className="id-card" style={styles.card}>
-                <div style={styles.header}>
-                 
-                  <p style={{fontSize:"25px", fontWeight:"bold"}}>ID Card</p>
-                </div>
-                <div style={styles.body}>
-                  <img
-                     src={`https://crm-java.onrender.com/crm/admin/crm${employee.profileImagePath}`}
-                    alt="Employee"
-                    style={styles.photo}
-                  />
-                  <h5>{employee.name}</h5>
-                  <p>{employee.jobTitle}</p>
-                  <p>Department: {employee.departments.department}</p>
-                  <p>Contact: {employee.mobile}</p>
-                </div>
-                <div style={styles.footer}>
-                  <p>Valid Until: {employee.validUntil}</p>
-                </div>
-              </div>
-            </div>
-
-            <hr style={{ marginTop: "10px", width: "80%" }} />
-            <div className="row">
-              <div className="col-md-6">
-                <button
-                  className="btn btn-success"
-                  onClick={() => handleEditDetails(employee.id)}
-                  style={{ color: "white" }}
-                >
-                  <EditIcon color="white" /> Edit
-                </button>
-              </div>
-              <div className="col-md-6">
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(employee.id, employee.fullName)}
-                  style={{ color: "white" }}
-                >
-                  <DeleteIcon /> Delete
-                </button>
-              </div>
-            </div>
-          </div>
+      {loading ? (
+        <>
+         <div style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}>
+          <ClipLoader color="darkslategrey" size={50} />
         </div>
-      </div>
+        </>
+      ) : (
+        <>
+          <div
+            className="pt-3 mt-5 d-flex align-items-center"
+            style={{
+              justifyContent: "space-between",
+              paddingRight: "20px",
+            }}
+          >
+            <Button
+              variant="text"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+              style={{
+                color: "darkslategrey",
+                fontWeight: "bold",
+                textTransform: "none",
+              }}
+            >
+              Back
+            </Button>
+            <Breadcrumbs
+              separator={<NavigateNextIcon fontSize="small" />}
+              aria-label="breadcrumb"
+            >
+              <Link
+                underline="hover"
+                color="inherit"
+                href="/"
+                sx={{ color: "darkslategrey", fontWeight: "bold" }}
+              >
+                Home
+              </Link>
+              <Link
+                underline="none"
+                color="inherit"
+                href=""
+                sx={{ color: "darkslategrey", fontWeight: "bold" }}
+              >
+                Employees
+              </Link>
+              <Link underline="hover" color="inherit" href="add-employee">
+                List Employees
+              </Link>
+            </Breadcrumbs>
+          </div>
+
+          <div className="container mt-4">
+            <div className="row">
+              <div className="col-md-8">
+                <Typography
+                  variant="h4"
+                  color="success"
+                  style={{ fontWeight: "bolder" }}
+                  gutterBottom
+                >
+                  {employee.id}. {employee.fullName}
+                </Typography>
+                <hr />
+                {/** Map through employee details for better code maintenance */}
+                {[
+                  { label: "Email", value: employee.email },
+                  { label: "Designation", value: employee.jobTitle },
+                  { label: "Mobile", value: employee.mobile },
+                  { label: "Branch", value: employee.branchName },
+                  { label: "Address", value: employee.address },
+                  {
+                    label: "Shift Time",
+                    value: `${employee.shifts.shiftName} (${employee.shifts.startTime} to ${employee.shifts.endTime})`,
+                  },
+                  {
+                    label: "Department",
+                    value: employee.departments.department,
+                  },
+                  {
+                    label: "Status",
+                    value: employee.isActive ? "Active" : "Inactive",
+                    color: employee.isActive ? "green" : "red",
+                  },
+                ].map(({ label, value, color }) => (
+                  <div className="row pt-2" key={label}>
+                    <div className="col-md-3">
+                      <h6>{label}</h6>
+                    </div>
+                    <div className="col-md-9">
+                      <h6
+                        className="text-secondary"
+                        style={{ color }}
+                      >{`: ${value}`}</h6>
+                    </div>
+                    <hr
+                      style={{
+                        width: "80%",
+                        margin: "0 12px",
+                        border: "none",
+                        borderTop: "1px solid black",
+                      }}
+                    />
+                  </div>
+                ))}
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <Typography
+                      variant="h6"
+                      style={{
+                        padding: "10px",
+                        color: "darkslategrey",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      Employee Govt.ID Proof
+                    </Typography>
+                    <img
+                      src={`${API_BASE_URL}/crm/admin/crm${employee.idCardPath}`}
+                      alt="Employee Profile"
+                      className="rounded"
+                      style={{
+                        width: "80%",
+                        borderRadius: "5px",
+                        border: "2px solid grey",
+                      }}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <Typography
+                      variant="h6"
+                      style={{
+                        padding: "10px",
+                        color: "darkslategrey",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      Employee Profile Image
+                    </Typography>
+                    <img
+                      src={`${API_BASE_URL}/crm/admin/crm${employee.profileImagePath}`}
+                      alt="Employee Profile"
+                      className="rounded"
+                      style={{
+                        width: "80%",
+                        borderRadius: "5px",
+                        border: "2px solid grey",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <hr style={{ width: "80%", marginTop: "55px" }} />
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  style={{ paddingBottom: "10px" }}
+                >
+                  Employee Id card
+                </Typography>
+
+                <div className="container">
+                  <div className="id-card" style={styles.card}>
+                    <div style={styles.header}>
+                      <p style={{ fontSize: "25px", fontWeight: "bold" }}>
+                        ID Card
+                      </p>
+                    </div>
+                    <div style={styles.body}>
+                      <img
+                        src={`${API_BASE_URL}/crm/admin/crm${employee.profileImagePath}`}
+                        alt="Employee"
+                        style={styles.photo}
+                      />
+                      <h5>{employee.name}</h5>
+                      <p>{employee.jobTitle}</p>
+                      <p>Department: {employee.departments.department}</p>
+                      <p>Contact: {employee.mobile}</p>
+                    </div>
+                    <div style={styles.footer}>
+                      <p>Valid Until: {employee.validUntil}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <hr style={{ marginTop: "10px", width: "80%" }} />
+                <div className="row">
+                  <div className="col-md-6">
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleEditDetails(employee.id)}
+                      style={{ color: "white" }}
+                    >
+                      <EditIcon color="white" /> Edit
+                    </button>
+                  </div>
+                  <div className="col-md-6">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() =>
+                        handleDelete(employee.id, employee.fullName)
+                      }
+                      style={{ color: "white" }}
+                    >
+                      <DeleteIcon /> Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </Base>
   );
 };

@@ -5,6 +5,7 @@ import { ClipLoader } from "react-spinners";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Swal from "sweetalert2";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const Enquries = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,11 +16,12 @@ export const Enquries = () => {
   const [loading, setLoading] = useState(false);
   const api = useAxios();
 
+
   // Fetch Enquiries
   const fetchEnquiries = async () => {
     setLoading(true);
     try {
-      const response = await api.get("https://crm-java.onrender.com/crm/admin/enquiries");
+      const response = await api.get(`${API_BASE_URL}/crm/admin/enquiries`);
       setEnquiries(response.data);
       setTotalRecords(response.data.length);
     } catch (error) {
@@ -43,7 +45,7 @@ export const Enquries = () => {
 
     if (confirmDelete.isConfirmed) {
       try {
-        await api.delete(`http://localhost:8080/crm/admin/enquiry/${id}`);
+        await api.delete(`${API_BASE_URL}/crm/admin/enquiry/${id}`);
         Swal.fire("Deleted!", "The enquiry has been deleted.", "success");
         fetchEnquiries(); // Refresh enquiries after deletion
       } catch (error) {

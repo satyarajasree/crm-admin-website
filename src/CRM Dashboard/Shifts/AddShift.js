@@ -4,6 +4,7 @@ import { Breadcrumbs, Link } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Swal from "sweetalert2";
 import useAxios from '../auth/useAxios'
+import {API_BASE_URL} from "../auth/Api"
 
 export const AddShift = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ export const AddShift = () => {
     const formattedEndTime = `${formData.endTime.hour}:${formData.endTime.minute} ${formData.endTime.period}`;
 
     try {
-      const response = await api.post("https://crm-java.onrender.com/crm/admin/post-shift", {
+      const response = await api.post(`${API_BASE_URL}/crm/admin/post-shift`, {
         ...formData,
         startTime: formattedStartTime,
         endTime: formattedEndTime,

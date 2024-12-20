@@ -5,6 +5,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const AddHolidays = () => {
   const [holidayDate, setHolidayDate] = useState("");
@@ -18,7 +19,7 @@ export const AddHolidays = () => {
 
     try {
       const response = await api.post(
-        "https://crm-java.onrender.com/crm/admin/post-holiday",
+        `${API_BASE_URL}/crm/admin/post-holiday`,
         null,
         {
           params: {
@@ -45,7 +46,7 @@ export const AddHolidays = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await api.get("https://crm-java.onrender.com/crm/admin/departments");
+        const response = await api.get(`${API_BASE_URL}/crm/admin/departments`);
         setDepartments(response.data);
       } catch (error) {
         console.error("Error fetching departments:", error);

@@ -5,7 +5,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import useAxios from '../auth/useAxios';
-
+import {API_BASE_URL} from "../auth/Api"
 
 export const AddDepartments = () => {
   const [department, setDepartment] = useState([]);
@@ -17,7 +17,7 @@ export const AddDepartments = () => {
   
     try {
       const response = await api.post(
-        "https://crm-java.onrender.com/crm/admin/add-department",
+        `${API_BASE_URL}/crm/admin/add-department`,
         {
           department: department, 
           departmentDescription: departmentDescription,

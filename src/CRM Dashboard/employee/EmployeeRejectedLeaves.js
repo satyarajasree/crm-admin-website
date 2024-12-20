@@ -15,6 +15,7 @@ import {
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useAxios from "../auth/useAxios";
 import Swal from "sweetalert2";
+import {API_BASE_URL} from "../auth/Api"
 
 export const EmployeeRejectedLeaves = () => {
   const [leaves, setLeaves] = useState([]);
@@ -26,7 +27,7 @@ export const EmployeeRejectedLeaves = () => {
   useEffect(() => {
     // Fetch pending leaves when the component mounts
     api
-      .get("https://crm-java.onrender.com/crm/admin/leaves/REJECTED")
+      .get(`${API_BASE_URL}/crm/admin/leaves/REJECTED`)
       .then((response) => setLeaves(response.data))
       .catch((error) => console.error("Error fetching leaves!", error));
   }, []);
@@ -37,7 +38,7 @@ export const EmployeeRejectedLeaves = () => {
     console.log("Updating status for leave:", leaveId);
 
     api
-      .put(`https://crm-java.onrender.com/crm/admin/${leaveId}/status?status=${newStatus}`, null, {
+      .put(`${API_BASE_URL}0/crm/admin/${leaveId}/status?status=${newStatus}`, null, {
         params: { status: newStatus },
       })
       .then(() => {

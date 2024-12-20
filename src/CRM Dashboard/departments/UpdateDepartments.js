@@ -6,6 +6,7 @@ import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom"; // Import useParams for getting the holiday ID
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const UpdateDepartments = () => {
   const { id } = useParams(); // Get the holiday ID from the URL
@@ -19,7 +20,7 @@ export const UpdateDepartments = () => {
     // Fetch the existing holiday data and department list
     const fetchHolidayData = async () => {
       try {
-        const response = await api.get(`https://crm-java.onrender.com/crm/admin/departments/${id}`);
+        const response = await api.get(`${API_BASE_URL}/crm/admin/departments/${id}`);
         const holidayData = response.data;
         setDepartment(holidayData.department); // Assuming holidayDate is in YYYY-MM-DD format
         setDepartmentDescription(holidayData.departmentDescription);
@@ -51,7 +52,7 @@ export const UpdateDepartments = () => {
 
     try {
       const response = await api.put(
-        `https://crm-java.onrender.com/crm/admin/departments/${id}`, // Assuming an update endpoint exists
+        `${API_BASE_URL}/crm/admin/departments/${id}`, // Assuming an update endpoint exists
         holidayData
       );
 

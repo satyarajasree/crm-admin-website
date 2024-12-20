@@ -6,6 +6,7 @@ import { useAuth } from "./auth/AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {API_BASE_URL} from "./auth/Api"
 
 const CrmLogin = () => {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ const CrmLogin = () => {
     e.preventDefault();
     setLoading(true); // Start loading
     try {
-      const response = await axios.post("https://crm-java.onrender.com/crm/admin/login", {
+      const response = await axios.post(`${API_BASE_URL}/crm/admin/login`, {
         username,
         password,
       });

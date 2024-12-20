@@ -5,6 +5,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const UpdateShift = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export const UpdateShift = () => {
   useEffect(() => {
     const fetchShiftDetails = async () => {
       try {
-        const response = await api.get(`https://crm-java.onrender.com/crm/admin/shifts/${id}`);
+        const response = await api.get(`${API_BASE_URL}/crm/admin/shifts/${id}`);
         console.log("Shift Details Response:", response.data); // Log the response
         const { shiftName, startTime, endTime } = response.data;
 
@@ -88,7 +89,7 @@ export const UpdateShift = () => {
     const formattedEndTime = `${formData.endTime.hour}:${formData.endTime.minute} ${formData.endTime.period}`;
 
     try {
-      const response = await api.put(`https://crm-java.onrender.com/crm/admin/shift/${id}`, {
+      const response = await api.put(`${API_BASE_URL}/crm/admin/shift/${id}`, {
         ...formData,
         startTime: formattedStartTime,
         endTime: formattedEndTime,

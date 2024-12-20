@@ -7,6 +7,8 @@ import { FaUsers,FaUsersSlash } from "react-icons/fa";
 import "./styles/Dashboard.css";
 import { Col, Row } from "react-bootstrap";
 import useAxios from "./auth/useAxios";
+import { ClipLoader } from "react-spinners";
+import {API_BASE_URL} from "./auth/Api"
 
 export const CrmDashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -20,7 +22,7 @@ export const CrmDashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await api.get("https://crm-java.onrender.com/crm/admin/crm/employees");
+        const response = await api.get(`${API_BASE_URL}/crm/admin/crm/employees`);
         const employeesWithStatus = response.data.map((emp) => ({
           ...emp,
           isActive: emp.active, // Map `active` to `isActive`
@@ -54,10 +56,17 @@ export const CrmDashboard = () => {
     fetchEmployees();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  
   return (
     <Base>
+    {loading ? (
+      <>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}>
+          <ClipLoader color="darkslategrey" size={50} />
+        </div>
+      </>
+    ):(
+      <>
       <div
         className="pt-3 mt-5"
         style={{
@@ -147,7 +156,9 @@ export const CrmDashboard = () => {
             </Paper>
           </Col>
         </Row>
-      </div>
+      </div></>
+    )}
+      
     </Base>
   );
 };

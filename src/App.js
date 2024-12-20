@@ -8,6 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 
 import "react-toastify/dist/ReactToastify.css";
+import Test from "./CRM Dashboard/employee/Test";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<CrmApp />} path="/*" />
-          <Route element={<Home />} path="/" />
+          <Route element={<Test />} path="/" />
          
         </Routes>
       </BrowserRouter>

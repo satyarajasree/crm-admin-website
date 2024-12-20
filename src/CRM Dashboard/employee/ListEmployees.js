@@ -8,6 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../auth/useAxios";
 import * as XLSX from "xlsx";
+import {API_BASE_URL} from "../auth/Api"
 
 const ListEmployees = () => {
   const [employees, setEmployees] = useState([]);
@@ -23,7 +24,7 @@ const ListEmployees = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await api.get("https://crm-java.onrender.com/crm/admin/crm/employees");
+        const response = await api.get(`${API_BASE_URL}/crm/admin/crm/employees`);
         const employeesWithStatus = response.data.map((emp) => ({
           ...emp,
           isActive: emp.active, // Map `active` to `isActive`
@@ -82,7 +83,6 @@ const ListEmployees = () => {
       Status: emp.isActive ? "Active" : "Inactive",
       "Branch Name": emp.branchName,
       Designation: emp.jobTitle,
-      profileImage: `https://crm-java.onrender.com/crm/admin/crm${emp.idCardPath}`
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(sheetData);

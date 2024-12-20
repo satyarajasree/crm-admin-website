@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const ListHolidays = () => {
   const [holidays, setHolidays] = useState([]);
@@ -26,7 +27,7 @@ export const ListHolidays = () => {
     const fetchHolidays = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`https://crm-java.onrender.com/crm/admin/holidays`);
+        const response = await api.get(`${API_BASE_URL}/crm/admin/holidays`);
         setHolidays(response.data);
         setFilteredHolidays(response.data);
 
@@ -56,7 +57,7 @@ export const ListHolidays = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        await api.delete(`https://crm-java.onrender.com/crm/admin/holiday/${holidayId}`);
+        await api.delete(`${API_BASE_URL}/crm/admin/holiday/${holidayId}`);
         setHolidays(holidays.filter((holiday) => holiday.id !== holidayId));
         setFilteredHolidays(
           filteredHolidays.filter((holiday) => holiday.id !== holidayId)

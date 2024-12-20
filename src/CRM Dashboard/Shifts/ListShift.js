@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "../auth/useAxios";
+import {API_BASE_URL} from "../auth/Api"
 
 export const ListShift = () => {
   const [shifts, setShifts] = useState([]);
@@ -28,7 +29,7 @@ export const ListShift = () => {
     const fetchShifts = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`https://crm-java.onrender.com/crm/admin/shifts`);
+        const response = await api.get(`${API_BASE_URL}/crm/admin/shifts`);
         setShifts(response.data);
         setFilteredShifts(response.data);
       } catch (err) {
@@ -64,7 +65,7 @@ export const ListShift = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        await api.delete(`https://crm-java.onrender.com/crm/admin/shift/${shiftId}`);
+        await api.delete(`${API_BASE_URL}/crm/admin/shift/${shiftId}`);
         setShifts(shifts.filter((shift) => shift.id !== shiftId));
         setFilteredShifts(filteredShifts.filter((shift) => shift.id !== shiftId));
         Swal.fire("Deleted!", "The shift has been deleted.", "success");

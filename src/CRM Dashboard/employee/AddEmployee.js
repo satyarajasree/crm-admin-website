@@ -5,6 +5,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import useAxios from "../auth/useAxios";
+import { API_BASE_URL } from "../auth/Api"
 
 const MAX_FILE_SIZE_MB = 1; // Maximum file size in MB
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert to bytes
@@ -44,8 +45,9 @@ export const AddEmployee = () => {
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const response = await api.get("https://crm-java.onrender.com/crm/admin/shifts");
+        const response = await api.get(`${API_BASE_URL}/crm/admin/shifts`);
         setShifts(response.data);
+        console.log(API_BASE_URL)
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
@@ -57,7 +59,7 @@ export const AddEmployee = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await api.get("https://crm-java.onrender.com/crm/admin/departments");
+        const response = await api.get(`${API_BASE_URL}/crm/admin/departments`);
         setDepartments(response.data);
       } catch (error) {
         console.error("Error fetching departments:", error);
@@ -102,7 +104,7 @@ export const AddEmployee = () => {
   
     try {
       const response = await api.post(
-        "https://crm-java.onrender.com/crm/admin/crm/register",
+        `${API_BASE_URL}/crm/admin/crm/register`,
         employeeData
       );
   
