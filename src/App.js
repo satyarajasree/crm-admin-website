@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<CrmApp />} path="/*" />
-          <Route element={<Test />} path="/" />
+          <Route element={<Home />} path="/" />
          
         </Routes>
       </BrowserRouter>

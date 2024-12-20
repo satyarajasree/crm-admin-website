@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Base } from "../components/Base";
-import { Breadcrumbs, Link, TextField, Button, MenuItem, Select } from "@mui/material";
+import {
+  Breadcrumbs,
+  Link,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useAxios from "../auth/useAxios";
 import { API_BASE_URL } from "../auth/Api";
@@ -30,6 +37,7 @@ export const EmployeePunchActivity = () => {
       setLoading(true);
       const response = await api.get(`${API_BASE_URL}/crm/admin/punch/all`);
       setPunch(response.data);
+      console.log(response.data)
     } catch (err) {
       console.log(err);
     } finally {
@@ -229,24 +237,37 @@ export const EmployeePunchActivity = () => {
                         <td>{p.Date}</td>
                         <td>{p["Punch-in Time"]}</td>
                         <td>
-                          
+                          <img
+                            src={`data:image/jpeg;base64,${p.punchInImage}`}
+                            alt="Punch-in"
+                            style={{ width: "50px", height: "50px" }}
+                          />
+                        </td>
+                        <td>
+                          {p.punchInImage ? (
                             <img
                               src={`data:image/jpeg;base64,${p.punchInImage}`}
                               alt="Punch-in"
                               style={{ width: "50px", height: "50px" }}
                             />
-                         
+                          ) : (
+                            <span>No Image</span>
+                          )}
                         </td>
                         <td>{p["Punch-out Time"]}</td>
+                        
                         <td>
-                          
+                          {p.punchOutImage ? (
                             <img
                               src={`data:image/jpeg;base64,${p.punchOutImage}`}
                               alt="Punch-out"
                               style={{ width: "50px", height: "50px" }}
                             />
-                         
+                          ) : (
+                            <span>No Image</span>
+                          )}
                         </td>
+
                         <td>{p["Login Time"]}</td>
                         <td>{p["Work Report"]}</td>
                         <td>
