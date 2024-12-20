@@ -5,7 +5,8 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@mui/material/Link";
 import Swal from "sweetalert2";
 import useAxios from "../auth/useAxios";
-import { API_BASE_URL } from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress for loading spinner
 
 const MAX_FILE_SIZE_MB = 1; // Maximum file size in MB
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert to bytes
@@ -40,14 +41,15 @@ export const AddEmployee = () => {
 
   const [shifts, setShifts] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const api = useAxios()
+  const [loading, setLoading] = useState(false); // State to track loading
+  const api = useAxios();
 
   useEffect(() => {
     const fetchShifts = async () => {
       try {
         const response = await api.get(`${API_BASE_URL}/crm/admin/shifts`);
         setShifts(response.data);
-        console.log(API_BASE_URL)
+        console.log(API_BASE_URL);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
@@ -96,25 +98,27 @@ export const AddEmployee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    setLoading(true); // Start loading when the form is submitted
+
     const employeeData = new FormData();
     for (const key in formData) {
       employeeData.append(key, formData[key]);
     }
-  
+
     try {
       const response = await api.post(
         `${API_BASE_URL}/crm/admin/crm/register`,
         employeeData
       );
-  
+
       if (response && response.data) {
         // Handle potential validation errors from backend
         const errorMessage =
           typeof response.data === "string"
             ? response.data
             : response.data.message || "An error occurred";
-  
+
         if (errorMessage.includes("Mobile number already exists")) {
           Swal.fire({
             title: "Error!",
@@ -131,7 +135,7 @@ export const AddEmployee = () => {
           return; // Return early to prevent clearing form
         }
       }
-  
+
       // If no validation errors, clear the form
       setFormData({
         fullName: "",
@@ -150,22 +154,23 @@ export const AddEmployee = () => {
         departmentId: "",
         isActive: true,
       });
-  
+
       Swal.fire({
         title: "Employee added successfully!",
         text: `Employee ID: ${response.data.id}`,
         icon: "success",
       });
     } catch (error) {
-      console.error("Error adding employee:", error); 
+      console.error("Error adding employee:", error);
       Swal.fire({
         title: "Error!",
         text: "There was an unexpected error adding the employee.",
         icon: "error",
       });
+    } finally {
+      setLoading(false); // Stop loading when the form submission is finished
     }
   };
-  
 
   return (
     <Base>
@@ -190,7 +195,7 @@ export const AddEmployee = () => {
           >
             Home
           </Link>
-         
+
           <Link underline="hover" key="2" color="inherit" href="/add-employees">
             Add Employee
           </Link>
@@ -603,8 +608,17 @@ export const AddEmployee = () => {
             <div className="row pb-3">
               <div className="col-sm-3"></div>
               <div className="col-sm-7 d-grid gap-2">
-                <button type="submit" className="btn " style={{backgroundColor:'#098666', color:'white'}}>
-                  Submit
+                <button
+                  type="submit"
+                  className="btn"
+                  style={{ backgroundColor: "#098666", color: "white" }}
+                  disabled={loading} // Disable button while loading
+                >
+                  {loading ? (
+                    <CircularProgress size={24} style={{ color: "white" }} />
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
               </div>
             </div>
