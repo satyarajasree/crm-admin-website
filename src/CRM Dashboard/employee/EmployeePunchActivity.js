@@ -83,7 +83,7 @@ export const EmployeePunchActivity = () => {
         "Login Time": p.workedHours || "N/A",
         "Work Report": p.workReport || "N/A",
         "Punch-in Image": p.punchInImage ? "Image" : "N/A",
-      "Punch-out Image": p.punchOutImage ? "Image" : "N/A"
+        "Punch-out Image": p.punchOutImage ? "Image" : "N/A",
       }));
   };
 
@@ -235,30 +235,32 @@ export const EmployeePunchActivity = () => {
                         <td>{p["S.No"]}</td>
                         <td>{p["Employee Name"]}</td>
                         <td>{p.Date}</td>
-                        <td>{p["Punch-in Image"]}</td>
+                        <td>{p["Punch-in Time"]}</td>
 
                         <td>
-                          {p.punchInImage ? (
+                          {p["Punch-in Image"] !== "N/A" ? (
                             <img
-                              src={`data:image/jpeg;base64,{p["Punch-in Image]}`}
+                              src={`data:image/jpeg;base64,${p["Punch-in Image"]}`}
                               alt="Punch-in"
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>{p.punchInImage}</span>
+                            <span>{p["Punch-in Image"]}</span>
                           )}
                         </td>
+                       
+
                         <td>{p["Punch-out Time"]}</td>
 
                         <td>
-                          {p.punchOutImage ? (
+                          {p["Punch-out Image"] !== "N/A" ? (
                             <img
-                            src={`data:image/jpeg;base64,{p["Punch-out Image]}`}
+                              src={`data:image/jpeg;base64,${p["Punch-out Image"]}`}
                               alt="Punch-out"
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>{p.punchOutImage}</span>
+                            <span>{p["Punch-out Image"]}</span>
                           )}
                         </td>
 
