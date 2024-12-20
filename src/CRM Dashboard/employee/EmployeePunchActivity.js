@@ -82,8 +82,8 @@ export const EmployeePunchActivity = () => {
         "Punch-out Time": formatTime(p.timeOfPunchOut),
         "Login Time": p.workedHours || "N/A",
         "Work Report": p.workReport || "N/A",
-        "punchInImage": p.punchInImage ? "Image" : "N/A",
-        "punchOutImage": p.punchOutImage ? "Image" : "N/A",
+        "punchInImage": p.punchInImage ,
+        "punchOutImage": p.punchOutImage ,
       }));
   };
 
