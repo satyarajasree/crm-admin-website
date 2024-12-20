@@ -11,25 +11,33 @@ import {
   Typography,
   FormControl,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useAxios from "../auth/useAxios";
 import Swal from "sweetalert2";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
 
 export const EmployeeApprovedLeaves = () => {
   const [leaves, setLeaves] = useState([]);
   const [selectedLeave, setSelectedLeave] = useState(null); // Hold selected leave for the popup
   const [newStatus, setNewStatus] = useState(""); // New status to update
   const [open, setOpen] = useState(false); // Modal state
+  const [loading, setLoading] = useState(true); // Loading state for fetching leaves
   const api = useAxios();
 
   useEffect(() => {
     // Fetch pending leaves when the component mounts
     api
       .get(`${API_BASE_URL}/crm/admin/leaves/APPROVED`)
-      .then((response) => setLeaves(response.data))
-      .catch((error) => console.error("Error fetching leaves!", error));
+      .then((response) => {
+        setLeaves(response.data);
+        setLoading(false); // Data fetched, hide loading spinner
+      })
+      .catch((error) => {
+        console.error("Error fetching leaves!", error);
+        setLoading(false); // If error occurs, hide loading spinner
+      });
   }, []);
 
   const handleStatusChange = (leaveId) => {
@@ -92,67 +100,74 @@ export const EmployeeApprovedLeaves = () => {
 
         <div className="container">
           <h2 className="text-center fw-bold pt-3" style={{ color: "darkslategrey" }}>
-            Pending Leaves
+            Approved Leaves
           </h2>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
             <hr style={{ width: "90%" }} />
           </div>
 
-          <table className="table">
-            <thead
-              className="text-white text-center"
-              style={{ backgroundColor: "#2C2F33" }}
-            >
-              <tr>
-                <th>S.No</th>
-                <th>Full Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Reason</th>
-                <th>Leave Type</th>
-                <th>leave day</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaves.length > 0 ? (
-                leaves.map((leave, index) => (
-                  <tr key={leave.id}>
-                    <td>{index + 1}</td>
-                    <td>{leave.employeeName}</td>
-                    <td>{new Date(leave.startDate).toLocaleDateString()}</td>
-                    <td>{new Date(leave.endDate).toLocaleDateString()}</td>
-                    <td>{leave.reason}</td>
-                    <td>{leave.leaveType}</td>
-                    <td>{leave.leaveDay}</td>
-                    <td>{leave.leavesEnum}</td>
-                    <td>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          console.log('Selected Leave:', leave); // Log to check
-                          setSelectedLeave(leave); // Set selected leave for status change
-                          setNewStatus(""); // Reset status
-                          setOpen(true); // Open modal
-                        }}
-                      >
-                        Change Status
-                      </Button>
+          {loading ? (
+            // Display loading spinner while fetching data
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <table className="table">
+              <thead
+                className="text-white text-center"
+                style={{ backgroundColor: "#2C2F33" }}
+              >
+                <tr>
+                  <th>S.No</th>
+                  <th>Full Name</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Reason</th>
+                  <th>Leave Type</th>
+                  <th>Leave Day</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaves.length > 0 ? (
+                  leaves.map((leave, index) => (
+                    <tr key={leave.id}>
+                      <td>{index + 1}</td>
+                      <td>{leave.employeeName}</td>
+                      <td>{new Date(leave.startDate).toLocaleDateString()}</td>
+                      <td>{new Date(leave.endDate).toLocaleDateString()}</td>
+                      <td>{leave.reason}</td>
+                      <td>{leave.leaveType}</td>
+                      <td>{leave.leaveDay}</td>
+                      <td>{leave.leavesEnum}</td>
+                      <td>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            console.log("Selected Leave:", leave); // Log to check
+                            setSelectedLeave(leave); // Set selected leave for status change
+                            setNewStatus(""); // Reset status
+                            setOpen(true); // Open modal
+                          }}
+                        >
+                          Change Status
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center">
+                      No approved leaves found.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="text-center">
-                    No pending leaves found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </Base>
 

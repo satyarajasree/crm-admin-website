@@ -15,7 +15,7 @@ import {
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useAxios from "../auth/useAxios";
 import Swal from "sweetalert2";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
 
 export const EmployeeRejectedLeaves = () => {
   const [leaves, setLeaves] = useState([]);
@@ -25,7 +25,7 @@ export const EmployeeRejectedLeaves = () => {
   const api = useAxios();
 
   useEffect(() => {
-    // Fetch pending leaves when the component mounts
+    // Fetch rejected leaves when the component mounts
     api
       .get(`${API_BASE_URL}/crm/admin/leaves/REJECTED`)
       .then((response) => setLeaves(response.data))
@@ -37,8 +37,9 @@ export const EmployeeRejectedLeaves = () => {
 
     console.log("Updating status for leave:", leaveId);
 
+    // Correct the URL to remove the unnecessary '0' before the endpoint
     api
-      .put(`${API_BASE_URL}0/crm/admin/${leaveId}/status?status=${newStatus}`, null, {
+      .put(`${API_BASE_URL}/crm/admin/${leaveId}/status?status=${newStatus}`, null, {
         params: { status: newStatus },
       })
       .then(() => {
@@ -92,7 +93,7 @@ export const EmployeeRejectedLeaves = () => {
 
         <div className="container">
           <h2 className="text-center fw-bold pt-3" style={{ color: "darkslategrey" }}>
-            Pending Leaves
+            Rejected Leaves
           </h2>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -111,7 +112,7 @@ export const EmployeeRejectedLeaves = () => {
                 <th>End Date</th>
                 <th>Reason</th>
                 <th>Leave Type</th>
-                <th>leave day</th>
+                <th>Leave Day</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -147,7 +148,7 @@ export const EmployeeRejectedLeaves = () => {
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center">
-                    No pending leaves found.
+                    No rejected leaves found.
                   </td>
                 </tr>
               )}
