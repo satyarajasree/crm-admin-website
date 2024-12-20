@@ -49,7 +49,7 @@ export default function Test() {
         form.append("profileImage", profileImage);
     }
     try {
-      const response = await axios.post('http://localhost:8080/customer/register', form, {
+      const response = await axios.post('https://backend-test1-beot.onrender.com/customer/register', form, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },
