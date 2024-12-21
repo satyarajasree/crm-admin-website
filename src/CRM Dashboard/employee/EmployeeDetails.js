@@ -4,7 +4,6 @@ import {
   Breadcrumbs,
   Link,
   Typography,
-  CircularProgress,
   Button,
 } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -219,10 +218,10 @@ export const EmployeeDetails = () => {
                         fontWeight: "bolder",
                       }}
                     >
-                      Employee Govt.ID Proof
+                      Employee Govt.ID Proof {employee.idCardPath}
                     </Typography>
                     <img
-                      src={`${API_BASE_URL}/crm/admin/crm${employee.idCardPath}`}
+                      src={employee.idCardPath}
                       alt="Employee Profile"
                       className="rounded"
                       style={{
@@ -245,7 +244,7 @@ export const EmployeeDetails = () => {
                       Employee Profile Image
                     </Typography>
                     <img
-                      src={`${API_BASE_URL}/crm/admin/crm${employee.profileImagePath}`}
+                      src={employee.profileImagePath}
                       alt="Employee Profile"
                       className="rounded"
                       style={{
@@ -277,7 +276,7 @@ export const EmployeeDetails = () => {
                     </div>
                     <div style={styles.body}>
                       <img
-                        src={`${API_BASE_URL}/crm/admin/crm${employee.profileImagePath}`}
+                        src={employee.profileImagePath}
                         alt="Employee"
                         style={styles.photo}
                       />
