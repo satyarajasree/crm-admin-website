@@ -218,7 +218,7 @@ export const EmployeeDetails = () => {
                         fontWeight: "bolder",
                       }}
                     >
-                      Employee Govt.ID Proof {employee.idCardPath}
+                      Employee Govt.ID Proof
                     </Typography>
                     <img
                       src={employee.idCardPath}
