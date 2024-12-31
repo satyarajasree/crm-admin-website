@@ -44,7 +44,7 @@ export const CrmApp = () => {
               path="/employees-rejected-leaves"
               element={<EmployeeRejectedLeaves />}
             />
-            <Route path="/update-departments/:id" element={<UpdatePunchActivity/>} />
+            <Route path="/update-punch/:id" element={<UpdatePunchActivity/>} />
             <Route
               path="/employees-approved-leaves"
               element={<EmployeeApprovedLeaves />}
