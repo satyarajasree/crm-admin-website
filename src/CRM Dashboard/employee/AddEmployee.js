@@ -56,7 +56,7 @@ export const AddEmployee = () => {
     };
 
     fetchShifts();
-  }, [api]);
+  }, []);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -231,6 +231,7 @@ export const AddEmployee = () => {
                   value={formData.fullName}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter full name"
                   required
                 />
               </div>
@@ -254,6 +255,7 @@ export const AddEmployee = () => {
                   type="text"
                   id="companyName"
                   name="companyName"
+                  placeholder="Enter company name"
                   value={formData.companyName}
                   className="form-control"
                   onChange={handleChange}
@@ -283,6 +285,7 @@ export const AddEmployee = () => {
                   value={formData.branchName}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter branch name"
                   required
                 />
               </div>
@@ -309,6 +312,7 @@ export const AddEmployee = () => {
                   value={formData.jobTitle}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter designation"
                   required
                 />
               </div>
@@ -335,6 +339,7 @@ export const AddEmployee = () => {
                   value={formData.employeeId}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter reference id"
                   required
                 />
               </div>
@@ -360,6 +365,7 @@ export const AddEmployee = () => {
                   value={formData.shiftId}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="select shift"
                   required
                 >
                   <option value="" disabled>
@@ -421,6 +427,7 @@ export const AddEmployee = () => {
                   value={formData.email}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter email"
                   required
                 />
               </div>
@@ -461,6 +468,7 @@ export const AddEmployee = () => {
                   value={formData.mobile}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter mobile number"
                   required
                 />
               </div>
@@ -486,6 +494,7 @@ export const AddEmployee = () => {
                   value={formData.address}
                   className="form-control"
                   onChange={handleChange}
+                  placeholder="Enter address"
                   required
                 />
               </div>

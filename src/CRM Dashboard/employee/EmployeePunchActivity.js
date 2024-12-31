@@ -13,6 +13,8 @@ import useAxios from "../auth/useAxios";
 import { API_BASE_URL } from "../auth/Api";
 import * as XLSX from "xlsx";
 import "../styles/table.css";
+import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Function to format time to "hh:mm AM/PM"
 const formatTime = (time) => {
@@ -109,6 +111,10 @@ export const EmployeePunchActivity = () => {
   }, []);
 
   const filteredPunch = getTableData();
+  const navigate = useNavigate();
+  const handleEditPunchActivity = (id) => {
+    navigate(`/update-departments/${id}`); // Redirect to the employee detail page with the ID
+  };
 
   return (
     <div>
@@ -191,7 +197,7 @@ export const EmployeePunchActivity = () => {
                     ))}
                   </Select>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-4">
                   <TextField
                     fullWidth
                     type="date"
@@ -201,7 +207,7 @@ export const EmployeePunchActivity = () => {
                     onChange={(e) => setFromDate(e.target.value)}
                   />
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-4">
                   <TextField
                     fullWidth
                     type="date"
@@ -211,16 +217,18 @@ export const EmployeePunchActivity = () => {
                     onChange={(e) => setToDate(e.target.value)}
                   />
                 </div>
-                <div className="col-md-2">
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={handleExportToExcel}
-                  >
-                    Export to Excel
-                  </Button>
-                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-12 p-3 d-flex justify-content-end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleExportToExcel}
+                >
+                  Export to Excel
+                </Button>
               </div>
             </div>
 
@@ -278,6 +286,18 @@ export const EmployeePunchActivity = () => {
                         </td>
                         <td>{p["Login Time"]}</td>
                         <td>{p["Work Report"]}</td>
+                        <td>
+                          {" "}
+                          <div className="col-md-6">
+                            <button
+                              className="btn btn-success"
+                              onClick={() => handleEditPunchActivity(p["id"])}
+                              style={{ color: "white" }}
+                            >
+                              <EditIcon color="white" /> Edit
+                            </button>
+                          </div>{" "}
+                        </td>
                       </tr>
                     ))
                   ) : (

@@ -24,6 +24,7 @@ import WarehouseIcon from "@mui/icons-material/Warehouse";
 import "../components/base.css";
 import { useAuth } from "../auth/AuthContext";
 import { ToastContainer } from "react-toastify";
+import image from '../assets/logo.png'
 
 export const Base = ({ children }) => {
   const location = useLocation();
@@ -108,15 +109,14 @@ export const Base = ({ children }) => {
           {/* Header Section */}
           <div
             style={{
-              backgroundColor: "#0DD354",
+              backgroundColor: "green",
               textAlign: "center",
-              padding: isOpen ? "20px 0" : "32px 0",
+              padding: isOpen ? "0px 0" : "32px 0",
             }}
           >
             {isOpen ? (
               <>
-                <h3 className="fw-bold">రాజశ్రీ</h3>
-                <h3 className="fw-bold">టౌన్షిప్</h3>
+                <img src={image} style={{width:250,height:150}}/>
               </>
             ) : (
               <div style={{ height: "8vh" }}></div>

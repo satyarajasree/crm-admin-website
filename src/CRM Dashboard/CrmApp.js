@@ -23,6 +23,7 @@ import { UpdateDepartments } from "./departments/UpdateDepartments";
 import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./auth/PrivateRoute";
 import {Enquries} from "./Enquries/Enquries"
+import { UpdatePunchActivity } from "./employee/UpdatePunchActivity";
 
 export const CrmApp = () => {
   return (
@@ -43,6 +44,7 @@ export const CrmApp = () => {
               path="/employees-rejected-leaves"
               element={<EmployeeRejectedLeaves />}
             />
+            <Route path="/update-departments/:id" element={<UpdatePunchActivity/>} />
             <Route
               path="/employees-approved-leaves"
               element={<EmployeeApprovedLeaves />}

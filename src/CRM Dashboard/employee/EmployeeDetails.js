@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Base } from "../components/Base";
-import {
-  Breadcrumbs,
-  Link,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Breadcrumbs, Link, Typography, Button } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate, useParams } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,7 +9,8 @@ import Swal from "sweetalert2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useAxios from "../auth/useAxios";
 import { ClipLoader } from "react-spinners";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
+import "../styles/employeeDetails.css";
 
 export const EmployeeDetails = () => {
   const { empId } = useParams();
@@ -55,16 +51,12 @@ export const EmployeeDetails = () => {
     fetchEmployee();
   }, [empId, api]);
 
-  
-
   if (error)
     return (
       <Typography color="error" align="center">
         {error}
       </Typography>
     );
-
- 
 
   const handleDelete = async (empId, fullName) => {
     const confirmed = await Swal.fire({
@@ -103,9 +95,15 @@ export const EmployeeDetails = () => {
     <Base>
       {loading ? (
         <>
-         <div style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}>
-          <ClipLoader color="darkslategrey" size={50} />
-        </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "70px",
+            }}
+          >
+            <ClipLoader color="darkslategrey" size={50} />
+          </div>
         </>
       ) : (
         <>
@@ -143,7 +141,7 @@ export const EmployeeDetails = () => {
               <Link
                 underline="none"
                 color="inherit"
-                href=""
+                href="/list-employees"
                 sx={{ color: "darkslategrey", fontWeight: "bold" }}
               >
                 Employees
@@ -154,18 +152,18 @@ export const EmployeeDetails = () => {
             </Breadcrumbs>
           </div>
 
-          <div className="container mt-4">
+          <div className="card m-4 p-4">
+            <Typography
+              variant="h4"
+              color="success"
+              style={{ fontWeight: "bolder" }}
+              gutterBottom
+            >
+              {employee.id}. {employee.fullName}
+            </Typography>
+            <hr />
             <div className="row">
               <div className="col-md-8">
-                <Typography
-                  variant="h4"
-                  color="success"
-                  style={{ fontWeight: "bolder" }}
-                  gutterBottom
-                >
-                  {employee.id}. {employee.fullName}
-                </Typography>
-                <hr />
                 {/** Map through employee details for better code maintenance */}
                 {[
                   { label: "Email", value: employee.email },
@@ -258,7 +256,6 @@ export const EmployeeDetails = () => {
               </div>
 
               <div className="col-md-4">
-                <hr style={{ width: "80%", marginTop: "55px" }} />
                 <Typography
                   variant="h6"
                   color="textSecondary"
@@ -291,7 +288,7 @@ export const EmployeeDetails = () => {
                   </div>
                 </div>
 
-                <hr style={{ marginTop: "10px", width: "80%" }} />
+                <hr style={{ marginTop: "10px", width: "100%" }} />
                 <div className="row">
                   <div className="col-md-6">
                     <button

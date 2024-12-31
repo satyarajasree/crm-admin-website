@@ -1,0 +1,11 @@
+.card{
+  border: 1px solid #f6f3f3; /* Soft border color for subtle appearance */
+  border-radius: 8px;
+  border-collapse: collapse;
+  overflow: hidden; /* To ensure rounded corners are applied */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-color: #f9f9f9; /* Neutral background color */
+  color: #333; /* Darker text color for better contrast */
+  font-size: 14px; /* Professional font size */
+  font-family: 'Arial', sans-serif; /* Clean font */
+}

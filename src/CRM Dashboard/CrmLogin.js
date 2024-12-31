@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./styles/form.css";
 import image from "./assets/login2.png";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,10 @@ import { useAuth } from "./auth/AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {API_BASE_URL} from "./auth/Api"
+import { API_BASE_URL } from "./auth/Api";
+import login from "./assets/login.json";
+import Lottie from "react-lottie";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const CrmLogin = () => {
   const [username, setUsername] = useState("");
@@ -15,6 +18,16 @@ const CrmLogin = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+ 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: login || {}, // Default to an empty object if login is undefined
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,25 +37,37 @@ const CrmLogin = () => {
         username,
         password,
       });
-      login(response.data); // Save the token
-      toast.success("Login successful! Redirecting to dashboard ...", { autoClose: 4000 });
+      login(response.data);
+      toast.success("Login successful! Redirecting to dashboard ...", {
+        autoClose: 4000,
+      });
       setTimeout(() => {
         navigate("/dashboard"); // Redirect to dashboard after toast
       }, 3000);
     } catch (err) {
       setError("Invalid credentials or server error");
-      toast.error("Login failed! Please check your credentials.", { autoClose: 3000 });
+      toast.error("Login failed! Please check your credentials.", {
+        autoClose: 3000,
+      });
     } finally {
       setLoading(false); // Stop loading
     }
   };
+  const lottieRef = useRef(null);
 
   return (
     <div className="login-container">
       <ToastContainer position="top-center" />
       <div className="form-container">
         <center>
-          <img className="img" src={image} alt="image1" width="70%" height="70%" />
+       
+    <DotLottieReact
+      src="https://lottie.host/fa60c9e1-893f-45c5-b4dc-f5009450978a/hQsQPhKTNk.lottie"
+      loop
+      autoplay
+    />
+
+
           {error && <p style={{ color: "red" }}>{error}</p>}
         </center>
 
@@ -84,17 +109,15 @@ const CrmLogin = () => {
             </div>
 
             <button type="submit" className="btn btn-submit" disabled={loading}>
-            {loading ? (
-              <span>
-                <i className="fas fa-spinner fa-spin"></i> Logging in...
-              </span>
-            ) : (
-              "Login"
-            )}
-          </button>
+              {loading ? (
+                <span>
+                  <i className="fas fa-spinner fa-spin"></i> Logging in...
+                </span>
+              ) : (
+                "Login"
+              )}
+            </button>
           </div>
-
-         
         </form>
       </div>
     </div>
