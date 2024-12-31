@@ -83,7 +83,7 @@ export const EmployeeRejectedLeaves = () => {
             <Link
               underline="hover"
               color="inherit"
-              href="/"
+              href="/dashboard"
               sx={{ color: "darkslategrey", fontWeight: "bold" }}
             >
               Home
@@ -91,7 +91,7 @@ export const EmployeeRejectedLeaves = () => {
             <Link
               underline="none"
               color="inherit"
-              href="employees"
+              href="/employees-rejected-leaves"
               sx={{ color: "darkslategrey", fontWeight: "bold" }}
             >
               Employees

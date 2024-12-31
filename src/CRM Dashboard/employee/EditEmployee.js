@@ -54,6 +54,10 @@ export const EditEmployee = () => {
       [name]: value,
     }));
   };
+  const validateMobileNumber = (mobile) => {
+    const mobileRegex = /^[0-9]{10}$/; // Regex for a 10-digit mobile number
+    return mobileRegex.test(mobile);
+  };
 
   const handleStatusChange = (e) => {
     const value = e.target.value === "true"; // Convert string to boolean
@@ -66,6 +70,16 @@ export const EditEmployee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateMobileNumber(employeeData.mobile)) {
+      Swal.fire({
+        title: "Invalid mobile number",
+        text: "Please enter a valid 10-digit mobile number.",
+        icon: "error",
+      });
+      return;
+    }
+    
+
     // Check if data has changed
     if (JSON.stringify(employeeData) === JSON.stringify(initialData)) {
       Swal.fire({
@@ -74,7 +88,9 @@ export const EditEmployee = () => {
       return;
     }
 
+
     const formData = new FormData();
+    
 
     // Append text fields
     Object.keys(employeeData).forEach((key) => {
@@ -90,6 +106,7 @@ export const EditEmployee = () => {
         title: `Employee details updated`,
         text: ``,
       });
+      
       navigate(-1);
     } catch (error) {
       console.error("Error updating employee", error);

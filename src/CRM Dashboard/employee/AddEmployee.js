@@ -98,6 +98,15 @@ export const AddEmployee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Validate mobile number length
+  if (formData.mobile.length !== 10) {
+    Swal.fire({
+      title: "Error!",
+      text: "Mobile number must be exactly 10 digits.",
+      icon: "error",
+    });
+    return;
+  }
 
     setLoading(true); // Start loading when the form is submitted
 

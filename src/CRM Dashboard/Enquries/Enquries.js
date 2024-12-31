@@ -98,14 +98,12 @@ export const Enquries = () => {
             underline="none"
             key="2"
             color="inherit"
-            href=""
+            href="/enquries"
             sx={{ color: "darkslategrey", fontWeight: "bold" }}
           >
-            Employees
+            Enquiries
           </Link>
-          <Link underline="hover" key="3" color="inherit" href="add-employee">
-            List Employees
-          </Link>
+          
         </Breadcrumbs>
       </div>
 

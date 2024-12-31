@@ -13,12 +13,19 @@ export const AddHolidays = () => {
   const [reasonForHoliday, setReasonForHoliday] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [departments, setDepartments] = useState([]);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
+  const [minDate, setMinDate] = useState(""); // State for minimum date
   const api = useAxios();
+
+  useEffect(() => {
+    // Set the minimum date to today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split("T")[0];
+    setMinDate(today);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const response = await api.post(
@@ -36,14 +43,14 @@ export const AddHolidays = () => {
       setHolidayDate("");
       setReasonForHoliday("");
       setDepartmentId("");
-      setLoading(false); // Stop loading
-      console.log(response.data);
+      setLoading(false);
+
       Swal.fire({
         title: `Holiday set to date ${holidayDate}`,
         text: `On the Occasion of ${reasonForHoliday}`,
       });
     } catch (error) {
-      setLoading(false); // Stop loading
+      setLoading(false);
       console.error("Error adding holiday:", error);
       Swal.fire({
         title: "Error",
@@ -129,6 +136,7 @@ export const AddHolidays = () => {
                   className="form-control"
                   onChange={(e) => setHolidayDate(e.target.value)}
                   required
+                  min={minDate} // Set minimum date to today's date
                 />
               </div>
             </div>
@@ -157,7 +165,6 @@ export const AddHolidays = () => {
               </div>
             </div>
 
-            {/* Department Selection */}
             <div className="row mt-3">
               <div
                 className="col-sm-3"
@@ -208,7 +215,7 @@ export const AddHolidays = () => {
                 cursor: "pointer",
                 fontSize: "16px",
               }}
-              disabled={loading} // Disable button while loading
+              disabled={loading}
             >
               {loading ? (
                 <CircularProgress size={24} style={{ color: "white" }} />

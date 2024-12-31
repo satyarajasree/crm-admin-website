@@ -151,7 +151,7 @@ export const EmployeePunchActivity = () => {
                 <Link
                   underline="hover"
                   color="inherit"
-                  href="/"
+                  href="/dashboard"
                   sx={{ color: "darkslategrey", fontWeight: "bold" }}
                 >
                   Home
@@ -159,14 +159,12 @@ export const EmployeePunchActivity = () => {
                 <Link
                   underline="none"
                   color="inherit"
-                  href=""
+                  href="/employees-punch-activity"
                   sx={{ color: "darkslategrey", fontWeight: "bold" }}
                 >
-                  Employees
+                  Punch Activity
                 </Link>
-                <Link underline="hover" color="inherit" href="add-employee">
-                  List Employees
-                </Link>
+                
               </Breadcrumbs>
             </div>
 

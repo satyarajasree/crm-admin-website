@@ -5,12 +5,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "../auth/useAxios";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
 
 export const UpdateShift = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const api = useAxios()
+  const api = useAxios();
+
   const [formData, setFormData] = useState({
     shiftName: "",
     startTime: { hour: "12", minute: "00", period: "AM" },
@@ -22,16 +23,12 @@ export const UpdateShift = () => {
       try {
         const response = await api.get(`${API_BASE_URL}/crm/admin/shifts/${id}`);
         console.log("Shift Details Response:", response.data); // Log the response
-        const { shiftName, startTime, endTime } = response.data;
+        const { shiftName } = response.data;
 
-        const parsedStartTime = parseTime(startTime);
-        const parsedEndTime = parseTime(endTime);
-
-        setFormData({
+        setFormData((prevData) => ({
+          ...prevData,
           shiftName,
-          startTime: parsedStartTime,
-          endTime: parsedEndTime,
-        });
+        }));
       } catch (error) {
         console.error("Error fetching shift details:", error);
         Swal.fire({
@@ -43,60 +40,43 @@ export const UpdateShift = () => {
     };
 
     fetchShiftDetails();
-
-
   }, [id, api]);
-
-  const parseTime = (time) => {
-    if (!time) return { hour: "12", minute: "00", period: "AM" }; // Default values if time is not provided
-
-    let [hour, minute] = time.split(":").map(Number);
-
-    // Handle potential parsing issues
-    if (isNaN(hour) || isNaN(minute)) {
-      console.error("Invalid time format:", time);
-      return { hour: "12", minute: "00", period: "AM" }; // Default values on error
-    }
-
-    const period = hour >= 12 ? "PM" : "AM";
-    if (hour === 0) hour = 12; // Midnight case
-    else if (hour > 12) hour -= 12; // Convert to 12-hour format
-
-    return {
-      hour: hour.toString().padStart(2, "0"),
-      minute: minute.toString().padStart(2, "0"),
-      period,
-    };
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const [timeField, timeType] = name.split(".");
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [timeField]: {
-        ...prevData[timeField],
-        [timeType]: value,
-      },
-    }));
+    if (name.includes(".")) {
+      // Handle nested time fields
+      const [timeField, timeType] = name.split(".");
+      setFormData((prevData) => ({
+        ...prevData,
+        [timeField]: {
+          ...prevData[timeField],
+          [timeType]: value,
+        },
+      }));
+    } else {
+      // Handle other fields (e.g., shiftName)
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formattedStartTime = `${formData.startTime.hour}:${formData.startTime.minute} ${formData.startTime.period}`;
-    const formattedEndTime = `${formData.endTime.hour}:${formData.endTime.minute} ${formData.endTime.period}`;
+    const formattedStartTime = `${formData.startTime.hour}:${formData.startTime.minute}:00 ${formData.startTime.period}`;
+    const formattedEndTime = `${formData.endTime.hour}:${formData.endTime.minute}:00 ${formData.endTime.period}`;
 
     try {
       const response = await api.put(`${API_BASE_URL}/crm/admin/shift/${id}`, {
         ...formData,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-
       });
 
-     
       Swal.fire({
         title: "Shift updated successfully!",
         text: `Shift ID: ${response.data.id}`,
@@ -111,7 +91,6 @@ export const UpdateShift = () => {
         icon: "error",
       });
     }
-
   };
 
   const renderTimeOptions = (type) => {
@@ -171,6 +150,7 @@ export const UpdateShift = () => {
             />
           </div>
 
+          {/* Start Time */}
           <div className="form-group mb-3">
             <label htmlFor="startTime">Start Time*</label>
             <div className="d-flex">
@@ -202,11 +182,9 @@ export const UpdateShift = () => {
                 {renderTimeOptions("period")}
               </select>
             </div>
-            <small className="form-text text-muted">
-              Selected Start Time: {`${formData.startTime.hour}:${formData.startTime.minute} ${formData.startTime.period}`}
-            </small>
           </div>
 
+          {/* End Time */}
           <div className="form-group mb-3">
             <label htmlFor="endTime">End Time*</label>
             <div className="d-flex">
@@ -238,9 +216,6 @@ export const UpdateShift = () => {
                 {renderTimeOptions("period")}
               </select>
             </div>
-            <small className="form-text text-muted">
-              Selected End Time: {`${formData.endTime.hour}:${formData.endTime.minute} ${formData.endTime.period}`}
-            </small>
           </div>
 
           <div className="form-group mb-3" style={{ display: "flex", justifyContent: "center" }}>
