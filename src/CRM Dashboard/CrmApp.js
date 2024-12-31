@@ -23,7 +23,7 @@ import { UpdateDepartments } from "./departments/UpdateDepartments";
 import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./auth/PrivateRoute";
 import {Enquries} from "./Enquries/Enquries"
-import { UpdatePunchActivity } from "./employee/UpdatePunchActivity";
+import  UpdatePunchActivity  from "./employee/UpdatePunchActivity";
 
 export const CrmApp = () => {
   return (

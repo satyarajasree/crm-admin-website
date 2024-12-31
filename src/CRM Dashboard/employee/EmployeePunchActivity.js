@@ -88,6 +88,7 @@ export const EmployeePunchActivity = () => {
       "Work Report": p.workReport || "N/A",
       punchInImage: p.punchInImage,
       punchOutImage: p.punchOutImage,
+      "id":p.id
     }));
   };
 
@@ -102,6 +103,7 @@ export const EmployeePunchActivity = () => {
       "Work Report": p.workReport || "N/A",
       "Punch-in Image": p.punchInImage ? "Image" : "N/A",
       "Punch-out Image": p.punchOutImage ? "Image" : "N/A",
+      
     }));
   };
 
@@ -113,7 +115,7 @@ export const EmployeePunchActivity = () => {
   const filteredPunch = getTableData();
   const navigate = useNavigate();
   const handleEditPunchActivity = (id) => {
-    navigate(`/update-departments/${id}`); // Redirect to the employee detail page with the ID
+    navigate(`/update-punch/${id}`);
   };
 
   return (
