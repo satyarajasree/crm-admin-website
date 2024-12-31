@@ -6,17 +6,18 @@ import {
   Modal,
   Button,
   Box,
-  Select,
   MenuItem,
   Typography,
   FormControl,
   InputLabel,
   CircularProgress,
+  Divider
 } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useAxios from "../auth/useAxios";
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "../auth/Api";
+import Select from "react-select";
 
 export const EmployeeApprovedLeaves = () => {
   const [leaves, setLeaves] = useState([]);
@@ -25,6 +26,10 @@ export const EmployeeApprovedLeaves = () => {
   const [open, setOpen] = useState(false); // Modal state
   const [loading, setLoading] = useState(true); // Loading state for fetching leaves
   const api = useAxios();
+  const statusOptions = [
+    { value: "APPROVED", label: "Approved" },
+    { value: "REJECTED", label: "Rejected" },
+  ];
 
   useEffect(() => {
     // Fetch pending leaves when the component mounts
@@ -171,66 +176,114 @@ export const EmployeeApprovedLeaves = () => {
         </div>
       </Base>
 
-      {/* Modal for changing status */}
-      <Modal open={open} onClose={() => setOpen(false)}>
+     {/* Modal for changing status */}
+     <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: 500,
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
-            borderRadius: "8px",
+            borderRadius: "12px",
+            overflow: "hidden",
           }}
         >
-          <Typography variant="h6" mb={2}>
-            Change Leave Status
-          </Typography>
-          {selectedLeave && (
-            <>
-              <Typography mb={2}>
-                <strong>Leave ID:</strong> {selectedLeave.id} {/* Display Leave ID */}
+          {/* Header */}
+          <Box
+            sx={{
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+              p: 2,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h6" fontWeight="bold">
+              Update Leave Status
+            </Typography>
+          </Box>
+
+          {/* Content */}
+          <Box sx={{ p: 3 }}>
+            {selectedLeave ? (
+              <>
+                <Typography mb={2}>
+                  <strong>Leave ID:</strong> {selectedLeave.id}
+                </Typography>
+                <Typography mb={2}>
+                  <strong>Employee:</strong> {selectedLeave.employeeName}
+                </Typography>
+                <FormControl fullWidth>
+                  
+                  <Select
+                    options={statusOptions}
+                    value={statusOptions.find(
+                      (option) => option.value === newStatus
+                    )}
+                    onChange={(selectedOption) =>
+                      setNewStatus(selectedOption.value)
+                    }
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        borderRadius: "8px",
+                        borderColor: "#ccc",
+                        boxShadow: "none",
+                        "&:hover": {
+                          borderColor: "#888",
+                        },
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: state.isSelected ? "#1976d2" : "#fff",
+                        color: state.isSelected ? "#fff" : "#000",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                        },
+                      }),
+                    }}
+                  />
+                </FormControl>
+              </>
+            ) : (
+              <Typography color="error" textAlign="center">
+                No leave selected.
               </Typography>
-              <Typography mb={2}>
-                <strong>Employee:</strong> {selectedLeave.employeeName}
-              </Typography>
-              <FormControl fullWidth>
-                <InputLabel id="status-select-label">Status</InputLabel>
-                <Select
-                  labelId="status-select-label"
-                  value={newStatus}
-                  onChange={(e) => setNewStatus(e.target.value)}
-                >
-                  <MenuItem value="APPROVED">Approved</MenuItem>
-                  <MenuItem value="REJECTED">Rejected</MenuItem>
-                </Select>
-              </FormControl>
-              <div
-                style={{
-                  marginTop: "16px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  onClick={() => handleStatusChange(selectedLeave.id)} // Pass the selected leave's ID
-                >
-                  Confirm
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={() => setOpen(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </>
-          )}
+            )}
+          </Box>
+
+          {/* Divider */}
+          <Divider />
+
+          {/* Footer Actions */}
+          <Box
+            sx={{
+              p: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              bgcolor: "background.default",
+            }}
+          >
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                selectedLeave && handleStatusChange(selectedLeave.id)
+              }
+              disabled={!selectedLeave || !newStatus}
+            >
+              Confirm
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </div>

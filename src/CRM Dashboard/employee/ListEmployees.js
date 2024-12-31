@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Base } from "../components/Base";
-import { Breadcrumbs, Button, Link, TextField } from "@mui/material";
+import { Breadcrumbs, Button, Link, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import "../styles/table.css";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../auth/useAxios";
 import * as XLSX from "xlsx";
-import {API_BASE_URL} from "../auth/Api"
+import { API_BASE_URL } from "../auth/Api";
 
 const ListEmployees = () => {
   const [employees, setEmployees] = useState([]);
@@ -18,6 +18,8 @@ const ListEmployees = () => {
   const [recordsPerPage, setRecordsPerPage] = useState(15);
   const [totalRecords, setTotalRecords] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState(""); // New state to track selected branch
+  const [branches, setBranches] = useState([]); // State to hold all branch names
   const navigate = useNavigate();
   const api = useAxios();
 
@@ -31,6 +33,12 @@ const ListEmployees = () => {
         }));
         setEmployees(employeesWithStatus);
         setTotalRecords(employeesWithStatus.length);
+
+        // Collect unique branches from employees
+        const uniqueBranches = [
+          ...new Set(employeesWithStatus.map((emp) => emp.branchName)),
+        ];
+        setBranches(uniqueBranches);
       } catch (err) {
         setError("Error fetching employee data");
       } finally {
@@ -41,8 +49,8 @@ const ListEmployees = () => {
     fetchEmployees();
   }, []);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (event) => {
+    setCurrentPage(Number(event.target.value));
   };
 
   const handleRecordsPerPageChange = (event) => {
@@ -58,9 +66,16 @@ const ListEmployees = () => {
     setCurrentPage(1);
   };
 
-  const filteredEmployees = employees.filter((emp) =>
-    emp.fullName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleBranchChange = (event) => {
+    setSelectedBranch(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredEmployees = employees
+    .filter((emp) =>
+      emp.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((emp) => (selectedBranch ? emp.branchName === selectedBranch : true));
 
   const indexOfLastEmployee = currentPage * recordsPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - recordsPerPage;
@@ -102,14 +117,7 @@ const ListEmployees = () => {
         <div>{error}</div>
       ) : (
         <>
-          <div
-            className="pt-3 mt-5"
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              paddingRight: "20px",
-            }}
-          >
+          <div className="pt-3 mt-5" style={{ display: "flex", justifyContent: "flex-end", paddingRight: "20px" }}>
             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
               <Link underline="hover" key="1" color="inherit" href="/" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
                 Home
@@ -126,23 +134,18 @@ const ListEmployees = () => {
           </div>
 
           <div className="container">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "10px",
-              }}
-            >
-              <TextField
-                type="number"
-                label="Records per page"
-                variant="outlined"
-                size="small"
-                value={recordsPerPage}
-                onChange={handleRecordsPerPageChange}
-                style={{ width: "150px", marginRight: "10px" }}
-                onBlur={handleRecordsPerPageChange}
-              />
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+              <FormControl size="small" style={{ width: "150px", marginRight: "10px" }}>
+                <InputLabel>Records per page</InputLabel>
+                <Select value={recordsPerPage} onChange={handleRecordsPerPageChange} label="Records per page">
+                  {[5, 10, 15, 20, 25].map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <TextField
                 label="Search by Full Name"
                 variant="outlined"
@@ -151,29 +154,35 @@ const ListEmployees = () => {
                 onChange={handleSearchChange}
                 style={{ width: "250px" }}
               />
-             
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "10px",
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
               <div>Total Records: {totalRecords}</div>
               <div>Matching Results: {totalFilteredRecords}</div>
-              
             </div>
+
+            {/* Branch filter dropdown */}
+            <FormControl size="small" style={{ width: "150px", marginBottom: "20px" }}>
+              <InputLabel>Filter by Branch</InputLabel>
+              <Select value={selectedBranch} onChange={handleBranchChange} label="Filter by Branch">
+                <MenuItem value="">All Branches</MenuItem>
+                {branches.map((branch, index) => (
+                  <MenuItem key={index} value={branch}>
+                    {branch}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <Button
-            className="mb-3"
-                variant="contained"
-                color="success"
-                onClick={downloadExcel}
-                style={{ height: "40px",display:'flex', float:'inline-end' }}
-              >
-                Download Excel
-              </Button>
+              className="mb-3"
+              variant="contained"
+              color="success"
+              onClick={downloadExcel}
+              style={{ height: "40px", display: "flex", float: "inline-end" }}
+            >
+              Download Excel
+            </Button>
 
             <table className="table">
               <thead className="text-white text-center bg-dark" style={{ backgroundColor: "#28a6a5" }}>
@@ -217,35 +226,17 @@ const ListEmployees = () => {
             </table>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: "20px",
-              marginRight: "100px",
-            }}
-          >
-            {Array.from(
-              { length: Math.ceil(totalFilteredRecords / recordsPerPage) },
-              (_, index) => (
-                <Button
-                  key={index + 1}
-                  variant={currentPage === index + 1 ? "contained" : "outlined"}
-                  color={currentPage === index + 1 ? "primary" : "inherit"}
-                  onClick={() => handlePageChange(index + 1)}
-                  sx={{
-                    margin: "0 5px",
-                    backgroundColor: currentPage === index + 1 ? "darkslategrey" : "transparent",
-                    color: currentPage === index + 1 ? "white" : "darkslategrey",
-                    "&:hover": {
-                      backgroundColor: currentPage === index + 1 ? "darkslategrey" : "lightgrey",
-                    },
-                  }}
-                >
-                  {index + 1}
-                </Button>
-              )
-            )}
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", marginRight: "100px" }}>
+            <FormControl size="small" style={{ width: "150px" }}>
+              <InputLabel>Page</InputLabel>
+              <Select value={currentPage} onChange={handlePageChange} label="Page">
+                {Array.from({ length: Math.ceil(totalFilteredRecords / recordsPerPage) }, (_, index) => (
+                  <MenuItem key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
         </>
       )}

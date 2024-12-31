@@ -8,13 +8,13 @@ import { Breadcrumbs, Link } from '@mui/material';
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Button, Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
 
-const UpdatePunchActivity = ({ match, history }) => {
+const UpdatePunchActivity = () => {
   const { id } = useParams();
   const [date, setDate] = useState('');
   const [timeOfPunchIn, setTimeOfPunchIn] = useState('');
   const [timeOfPunchOut, setTimeOfPunchOut] = useState('');
-  const [punchInImage, setPunchInImage] = useState(null);
-  const [punchOutImage, setPunchOutImage] = useState(null);
+  const [punchInImagePath, setPunchInImagePath] = useState(null); // Store image path
+  const [punchOutImagePath, setPunchOutImagePath] = useState(null); // Store image path
   const [loading, setLoading] = useState(false);
   const api = useAxios();
   const navigation = useNavigate();
@@ -24,10 +24,12 @@ const UpdatePunchActivity = ({ match, history }) => {
     const fetchPunchActivity = async () => {
       try {
         const response = await api.get(`${API_BASE_URL}/crm/admin/punch/${id}`);
-        const { date, timeOfPunchIn, timeOfPunchOut, punchInImage, punchOutImage } = response.data;
+        const { date, timeOfPunchIn, timeOfPunchOut, punchInImagePath, punchOutImagePath } = response.data;
         setDate(date);
         setTimeOfPunchIn(timeOfPunchIn);
         setTimeOfPunchOut(timeOfPunchOut);
+        setPunchInImagePath(punchInImagePath); // Set the path for Punch In image
+        setPunchOutImagePath(punchOutImagePath); // Set the path for Punch Out image
       } catch (error) {
         console.error('Error fetching punch activity:', error);
       }
@@ -40,9 +42,9 @@ const UpdatePunchActivity = ({ match, history }) => {
     const file = e.target.files[0];
     if (file) {
       if (type === 'punchIn') {
-        setPunchInImage(file);
+        setPunchInImagePath(file); // Set file for Punch In image
       } else {
-        setPunchOutImage(file);
+        setPunchOutImagePath(file); // Set file for Punch Out image
       }
     }
   };
@@ -57,12 +59,12 @@ const UpdatePunchActivity = ({ match, history }) => {
     formData.append('timeOfPunchIn', timeOfPunchIn);
     formData.append('timeOfPunchOut', timeOfPunchOut);
 
-    if (punchInImage) {
-      formData.append('punchInImage', punchInImage);
+    if (punchInImagePath) {
+      formData.append('punchInImage', punchInImagePath); // Add Punch In image file to form data
     }
 
-    if (punchOutImage) {
-      formData.append('punchOutImage', punchOutImage);
+    if (punchOutImagePath) {
+      formData.append('punchOutImage', punchOutImagePath); // Add Punch Out image file to form data
     }
 
     try {
@@ -179,7 +181,9 @@ const UpdatePunchActivity = ({ match, history }) => {
               accept="image/*"
               onChange={(e) => handleFileChange(e, 'punchIn')}
             />
-            {punchInImage && <img src={URL.createObjectURL(punchInImage)} alt="Punch In" className="mt-3" style={{ width: '100px', height: '100px', objectFit: 'contain' }} />}
+            {punchInImagePath && typeof punchInImagePath === 'string' && (
+              <img src={punchInImagePath} alt="Punch In" className="mt-3" style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
+            )}
           </div>
 
           <div className="mb-3">
@@ -190,7 +194,9 @@ const UpdatePunchActivity = ({ match, history }) => {
               accept="image/*"
               onChange={(e) => handleFileChange(e, 'punchOut')}
             />
-            {punchOutImage && <img src={URL.createObjectURL(punchOutImage)} alt="Punch Out" className="mt-3" style={{ width: '100px', height: '100px', objectFit: 'contain' }} />}
+            {punchOutImagePath && typeof punchOutImagePath === 'string' && (
+              <img src={punchOutImagePath} alt="Punch Out" className="mt-3" style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
+            )}
           </div>
 
           <div className="mb-3">
