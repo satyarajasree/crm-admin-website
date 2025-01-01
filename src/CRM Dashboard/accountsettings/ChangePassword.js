@@ -18,7 +18,17 @@ export const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
+    if (oldPassword === newPassword) {
+      Swal.fire({
+        title: "Error",
+        text: "New password cannot be the same as old password.",
+        icon: "error",
+      });
+      setLoading(false);
+      return;
+    }
+  
     if (newPassword !== confirmPassword) {
       Swal.fire({
         title: "Error",
@@ -28,7 +38,7 @@ export const ChangePassword = () => {
       setLoading(false);
       return;
     }
-
+  
     try {
       const response = await api.post(
         `${API_BASE_URL}/crm/admin/change-password`,
@@ -43,12 +53,12 @@ export const ChangePassword = () => {
           },
         }
       );
-
+  
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setLoading(false);
-
+  
       Swal.fire({
         title: "Password Changed Successfully",
         text: response.data,
@@ -64,6 +74,7 @@ export const ChangePassword = () => {
       });
     }
   };
+  
 
   return (
     <Base>
