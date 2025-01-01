@@ -119,7 +119,7 @@ const ListEmployees = () => {
         <>
           <div className="pt-3 mt-5" style={{ display: "flex", justifyContent: "flex-end", paddingRight: "20px" }}>
             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-              <Link underline="hover" key="1" color="inherit" href="/" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+              <Link underline="hover" key="1" color="inherit" href="/dashboard" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
                 Home
               </Link>
               <Link underline="none" key="2" color="inherit" href="/list-employees" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
