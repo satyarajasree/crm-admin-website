@@ -124,7 +124,7 @@ export const UpdateDepartments = () => {
                   htmlFor="holidayDate"
                   className="col-sm-2 col-form-label fw-bold"
                 >
-                  Date*
+                  Department*
                 </label>
               </div>
               <div className="col-sm-8">
@@ -148,7 +148,7 @@ export const UpdateDepartments = () => {
                   htmlFor="reasonForHoliday"
                   className="col-sm-2 col-form-label fw-bold"
                 >
-                  Reason*
+                  Description*
                 </label>
               </div>
 

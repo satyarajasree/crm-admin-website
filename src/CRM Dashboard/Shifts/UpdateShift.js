@@ -21,16 +21,15 @@ export const UpdateShift = () => {
   useEffect(() => {
     const fetchShiftDetails = async () => {
       try {
-        const response = await api.get(`${API_BASE_URL}/crm/admin/shifts/${id}`);
-        console.log("Shift Details Response:", response.data); // Log the response
+        const response = await api.get(
+          `${API_BASE_URL}/crm/admin/shifts/${id}`
+        );
         const { shiftName } = response.data;
-
         setFormData((prevData) => ({
           ...prevData,
           shiftName,
         }));
       } catch (error) {
-        console.error("Error fetching shift details:", error);
         Swal.fire({
           title: "Error!",
           text: "Failed to fetch shift details.",
@@ -46,7 +45,6 @@ export const UpdateShift = () => {
     const { name, value } = e.target;
 
     if (name.includes(".")) {
-      // Handle nested time fields
       const [timeField, timeType] = name.split(".");
       setFormData((prevData) => ({
         ...prevData,
@@ -56,7 +54,6 @@ export const UpdateShift = () => {
         },
       }));
     } else {
-      // Handle other fields (e.g., shiftName)
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -84,7 +81,6 @@ export const UpdateShift = () => {
       });
       navigate(`/list-shift?highlighted=${id}`);
     } catch (error) {
-      console.error("Error updating shift:", error);
       Swal.fire({
         title: "Error!",
         text: "There was an error updating the shift.",
@@ -118,21 +114,51 @@ export const UpdateShift = () => {
 
   return (
     <Base>
-      <div className="pt-3 mt-5" style={{ display: "flex", justifyContent: "flex-end", paddingRight: "20px" }}>
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-          <Link underline="hover" key="1" color="inherit" href="/dashboard" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+      <div
+        className="pt-3 mt-5"
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          paddingRight: "20px",
+        }}
+      >
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+        >
+          <Link
+            underline="hover"
+            key="1"
+            color="inherit"
+            href="/dashboard"
+            sx={{ color: "darkslategrey", fontWeight: "bold" }}
+          >
             Home
           </Link>
-          <Link underline="none" key="2" color="inherit" href="/list-shift" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+          <Link
+            underline="none"
+            key="2"
+            color="inherit"
+            href="/list-shift"
+            sx={{ color: "darkslategrey", fontWeight: "bold" }}
+          >
             Shifts
           </Link>
-          <Link underline="hover" key="3" color="inherit" href={`/edit-shift/${id}`} sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+          <Link
+            underline="hover"
+            key="3"
+            color="inherit"
+            href={`/edit-shift/${id}`}
+            sx={{ color: "darkslategrey", fontWeight: "bold" }}
+          >
             Update Shift
           </Link>
         </Breadcrumbs>
       </div>
       <div className="container" style={{ width: "70%" }}>
-        <h2 className="text-center fw-bold" style={{ color: "darkslategrey" }}>Update Shift</h2>
+        <h2 className="text-center fw-bold" style={{ color: "darkslategrey" }}>
+          Update Shift
+        </h2>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <hr style={{ width: "90%" }} />
         </div>
@@ -145,7 +171,9 @@ export const UpdateShift = () => {
               name="shiftName"
               value={formData.shiftName}
               className="form-control"
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, shiftName: e.target.value })
+              }
               required
             />
           </div>
@@ -218,7 +246,10 @@ export const UpdateShift = () => {
             </div>
           </div>
 
-          <div className="form-group mb-3" style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            className="form-group mb-3"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
             <button type="submit" className="btn btn-dark">
               Update Shift
             </button>
