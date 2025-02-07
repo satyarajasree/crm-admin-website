@@ -316,7 +316,7 @@ export const AddEmployee = () => {
                   </option>
                   {branch.map((branchItem) => (
                     <option key={branchItem.id} value={branchItem.id}>
-                      {branchItem.branchName} {branchItem.id}
+                      {branchItem.branchName} 
                     </option>
                   ))}
                 </select>
