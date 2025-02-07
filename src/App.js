@@ -6,7 +6,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
 import AddEmployee from "./AddEmployee";
-import CustomerApp from "./Customer Dashboard/CustomerApp"
 import EmployeeTreeView from "./EmployeeTreeView";
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
           <Route element={<Home />} path="/" />
           <Route element={<AddEmployee/>} path="/add"/>
           <Route element={<EmployeeTreeView />} path="/list" />
-          <Route element={<CustomerApp/>} path="/customer/*" />
         </Routes>
       </BrowserRouter>
     </div>
