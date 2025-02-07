@@ -160,7 +160,7 @@ export const EmployeeDetails = () => {
               style={{ fontWeight: "bolder" }}
               gutterBottom
             >
-              {employee.id}. {employee.fullName}
+             {employee.fullName}
             </Typography>
             <hr />
             <div className="row">
