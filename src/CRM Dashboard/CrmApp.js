@@ -24,6 +24,10 @@ import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./auth/PrivateRoute";
 import {Enquries} from "./Enquries/Enquries"
 import  UpdatePunchActivity  from "./employee/UpdatePunchActivity";
+import { AddBranch } from "./branch/AddBranch";
+import { ListBranch } from "./branch/ListBranch";
+import { UpdateBranch}  from "./branch/UpdateBranch";
+import WorkReports from "./employee/WorkReports";
 
 export const CrmApp = () => {
   return (
@@ -62,6 +66,10 @@ export const CrmApp = () => {
             <Route path="/list-holidays" element={<ListHolidays />} />
             <Route path="/edit-holiday/:id" element={<EditHoliday />} />
 
+            <Route path="/add-branch" element={<AddBranch />} />
+            <Route path="/list-branch" element={<ListBranch />} />
+            <Route path="/edit-branch/:id" element={<UpdateBranch />} />
+
             <Route path="/add-shift" element={<AddShift />} />
             <Route path="/list-shift" element={<ListShift />} />
             <Route path="/edit-shift/:id" element={<UpdateShift />} />
@@ -75,6 +83,7 @@ export const CrmApp = () => {
 
             <Route path="/enquries" element={<Enquries />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/work-reports" element={<WorkReports/>} />
           </Route>
 
           <Route path="/login" element={<CrmLogin />} />

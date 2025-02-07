@@ -1,0 +1,92 @@
+/* Calendar Container */
+.react-calendar {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Month Navigation */
+.react-calendar__navigation {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.react-calendar__navigation button {
+    color: #495057;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover Effect for Navigation */
+.react-calendar__navigation button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Days */
+.react-calendar__tile {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 50%;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* Hover Effect for Days */
+.react-calendar__tile:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Custom colors for attendance */
+.green-day {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-radius: 50%;
+    box-shadow: 0px 2px 8px rgba(0, 128, 0, 0.2);
+}
+
+.orange-day {
+    background-color: #fd7e14 !important;
+    color: white !important;
+    border-radius: 50%;
+    box-shadow: 0px 2px 8px rgba(255, 165, 0, 0.2);
+}
+
+.red-day {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-radius: 50%;
+    box-shadow: 0px 2px 8px rgba(220, 53, 69, 0.2);
+}
+
+/* Today’s Date Highlight */
+.react-calendar__tile--active {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 50%;
+}
+
+/* Disabled Dates */
+.react-calendar__tile--disabled {
+    background-color: #f8f9fa !important;
+    color: #ccc !important;
+    border-radius: 50%;
+}
+
+/* Adding responsiveness */
+@media (max-width: 600px) {
+    .react-calendar {
+        max-width: 100%;
+        padding: 10px;
+    }
+}

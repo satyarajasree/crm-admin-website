@@ -1,26 +1,43 @@
 .location_page {
   background-color: whitesmoke;
   border-radius: 20px;
+  padding: 9px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .location {
   display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 5px;
 }
 
-.line_gap{
-    line-height: 1rem;
+.line_gap {
+  line-height: 1.2rem;
+  font-size: 14px;
+  color: #333;
 }
 
 .addres_part {
-  .icon {
-    color: rgb(63, 120, 28);
-    margin-top: 3px;
-  }
+  padding: 15px;
+}
 
-  .location_icon{
-    margin-top: -3px;
-  }
+.addres_part .icon {
+  color: rgb(63, 120, 28);
+  margin-top: 3px;
+}
+
+.addres_part .location_icon {
+  margin-top: -3px;
+}
+
+.mapswrapper {
+  margin-top: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+iframe {
+  border: none;
 }

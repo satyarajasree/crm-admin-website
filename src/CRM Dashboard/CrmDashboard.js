@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { Base } from "./components/Base";
 import { Breadcrumbs, Paper, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -110,7 +109,7 @@ export const CrmDashboard = () => {
               className="text-center fw-bold"
               style={{ fontFamily: "Georgia", color: "#0DD354" }}
             >
-              Welcome, {username}! {/* Display username */}
+              Welcome, {username}, ! {/* Display username */}
             </h1>
           </div>
 

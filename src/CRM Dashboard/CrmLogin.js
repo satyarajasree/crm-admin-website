@@ -7,8 +7,6 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { API_BASE_URL } from "./auth/Api";
-import login from "./assets/login.json";
-import Lottie from "react-lottie";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const CrmLogin = () => {
@@ -45,7 +43,7 @@ const CrmLogin = () => {
         navigate("/dashboard"); // Redirect to dashboard after toast
       }, 3000);
     } catch (err) {
-      setError("Invalid credentials or server error");
+      setError("Invalid credentials");
       toast.error("Login failed! Please check your credentials.", {
         autoClose: 3000,
       });
@@ -66,7 +64,6 @@ const CrmLogin = () => {
       loop
       autoplay
     />
-
 
           {error && <p style={{ color: "red" }}>{error}</p>}
         </center>

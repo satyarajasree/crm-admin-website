@@ -36,9 +36,10 @@ const ListEmployees = () => {
 
         // Collect unique branches from employees
         const uniqueBranches = [
-          ...new Set(employeesWithStatus.map((emp) => emp.branchName)),
+          ...new Set(employeesWithStatus.map((emp) => emp.branch.branchName)),
         ];
         setBranches(uniqueBranches);
+       
       } catch (err) {
         setError("Error fetching employee data");
       } finally {
@@ -75,7 +76,7 @@ const ListEmployees = () => {
     .filter((emp) =>
       emp.fullName.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .filter((emp) => (selectedBranch ? emp.branchName === selectedBranch : true));
+    .filter((emp) => (selectedBranch ? emp.branch.branchName === selectedBranch : true));
 
   const indexOfLastEmployee = currentPage * recordsPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - recordsPerPage;
@@ -210,7 +211,7 @@ const ListEmployees = () => {
                     <td className="fw-bold" style={{ color: emp.isActive ? "green" : "red" }}>
                       {emp.isActive ? "Active" : "InActive"}
                     </td>
-                    <td>{emp.branchName}</td>
+                    <td>{emp.branch.branchName}</td>
                     <td>
                       <button
                         className="btn btn-dark"

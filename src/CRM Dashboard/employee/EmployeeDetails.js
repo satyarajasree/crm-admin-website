@@ -11,6 +11,7 @@ import useAxios from "../auth/useAxios";
 import { ClipLoader } from "react-spinners";
 import { API_BASE_URL } from "../auth/Api";
 import "../styles/employeeDetails.css";
+import Attendance from "./Attendance";
 
 export const EmployeeDetails = () => {
   const { empId } = useParams();
@@ -49,7 +50,7 @@ export const EmployeeDetails = () => {
     };
 
     fetchEmployee();
-  }, [empId, api]);
+  }, [empId]);
 
   if (error)
     return (
@@ -169,7 +170,7 @@ export const EmployeeDetails = () => {
                   { label: "Email", value: employee.email },
                   { label: "Designation", value: employee.jobTitle },
                   { label: "Mobile", value: employee.mobile },
-                  { label: "Branch", value: employee.branchName },
+                  { label: "Branch", value: employee.branch.branchName },
                   { label: "Address", value: employee.address },
                   {
                     label: "Shift Time",
@@ -314,6 +315,9 @@ export const EmployeeDetails = () => {
               </div>
             </div>
           </div>
+          <center>
+            <Attendance empId={empId} />
+          </center>
         </>
       )}
     </Base>

@@ -24,7 +24,7 @@ export const AddEmployee = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     companyName: "",
-    branchName: "",
+    branchId: "",
     jobTitle: "",
     employeeId: "",
     shiftId: "",
@@ -41,6 +41,7 @@ export const AddEmployee = () => {
 
   const [shifts, setShifts] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [branch, setBranch] = useState([]);
   const [loading, setLoading] = useState(false); // State to track loading
   const api = useAxios();
 
@@ -49,13 +50,25 @@ export const AddEmployee = () => {
       try {
         const response = await api.get(`${API_BASE_URL}/crm/admin/shifts`);
         setShifts(response.data);
-        console.log(API_BASE_URL);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     };
 
     fetchShifts();
+  }, []);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await api.get(`${API_BASE_URL}/crm/admin/branches`);
+        setBranch(response.data);
+      } catch (error) {
+        console.error("Error fetching shifts:", error);
+      }
+    };
+
+    fetchBranches();
   }, []);
 
   useEffect(() => {
@@ -98,15 +111,16 @@ export const AddEmployee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     // Validate mobile number length
-  if (formData.mobile.length !== 10) {
-    Swal.fire({
-      title: "Error!",
-      text: "Mobile number must be exactly 10 digits.",
-      icon: "error",
-    });
-    return;
-  }
+    if (formData.mobile.length !== 10) {
+      Swal.fire({
+        title: "Error!",
+        text: "Mobile number must be exactly 10 digits.",
+        icon: "error",
+      });
+      return;
+    }
 
     setLoading(true); // Start loading when the form is submitted
 
@@ -149,7 +163,7 @@ export const AddEmployee = () => {
       setFormData({
         fullName: "",
         companyName: "",
-        branchName: "",
+        branchId: "",
         jobTitle: "",
         employeeId: "",
         shiftId: "",
@@ -158,7 +172,7 @@ export const AddEmployee = () => {
         dateOfJoining: "",
         email: "",
         mobile: "",
-        countryCode: "+1", // Reset to default
+        countryCode: "+91", // Reset to default
         address: "",
         departmentId: "",
         isActive: true,
@@ -169,6 +183,7 @@ export const AddEmployee = () => {
         text: `Employee ID: ${response.data.id}`,
         icon: "success",
       });
+      console.log(formData);
     } catch (error) {
       console.error("Error adding employee:", error);
       Swal.fire({
@@ -280,23 +295,31 @@ export const AddEmployee = () => {
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
                 <label
-                  htmlFor="branchName"
+                  htmlFor="branchId"
                   className="col-sm-5 col-form-label fw-bold text-end"
                 >
                   Branch Name*
                 </label>
               </div>
+
               <div className="col-sm-7">
-                <input
-                  type="text"
-                  id="branchName"
-                  name="branchName"
-                  value={formData.branchName}
+                <select
+                  name="branchId"
+                  id="branchId"
                   className="form-control"
+                  value={formData.branchId}
                   onChange={handleChange}
-                  placeholder="Enter branch name"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Select a Branch
+                  </option>
+                  {branch.map((branchItem) => (
+                    <option key={branchItem.id} value={branchItem.id}>
+                      {branchItem.branchName} {branchItem.id}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

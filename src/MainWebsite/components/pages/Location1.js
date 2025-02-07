@@ -6,7 +6,7 @@ import "../pages/Location.css";
 const Location1 = () => {
   return (
     <div className="location_page">
-      <div className="addres_part p-3 pt-5">
+      <div className="addres_part p-3 pt-3">
         <div className="location gapping">
           <div className="icon location_icon">
             <IoLocation fontSize={"20px"} />
@@ -18,7 +18,7 @@ const Location1 = () => {
           </div>
         </div>
 
-        <div className="location pt-2">
+        <div className="location">
           <div className="icon">
             <MdEmail fontSize={"20px"} />
           </div>

@@ -24,7 +24,8 @@ import WarehouseIcon from "@mui/icons-material/Warehouse";
 import "../components/base.css";
 import { useAuth } from "../auth/AuthContext";
 import { ToastContainer } from "react-toastify";
-import image from '../assets/logo.png'
+import image from "../assets/logo.png";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 
 export const Base = ({ children }) => {
   const location = useLocation();
@@ -42,7 +43,8 @@ export const Base = ({ children }) => {
       currentPath.includes("/employees-pending-leaves") ||
       currentPath.includes("/employees-rejected-leaves") ||
       currentPath.includes("/employees-approved-leaves") ||
-      currentPath.includes("/employees-punch-activity")
+      currentPath.includes("/employees-punch-activity") ||
+      currentPath.includes("/work-reports")
   );
   const [openHolidays, setOpenHolidays] = useState(
     currentPath.includes("/add-holiday") ||
@@ -50,6 +52,9 @@ export const Base = ({ children }) => {
   );
   const [openShifts, setOpenShifts] = useState(
     currentPath.includes("/add-shift") || currentPath.includes("/list-shift")
+  );
+  const [openBranch, setOpenBranch] = useState(
+    currentPath.includes("/add-branch") || currentPath.includes("/list-branch")
   );
   const [openAccount, setOpenAccount] = useState(false);
 
@@ -67,6 +72,7 @@ export const Base = ({ children }) => {
   const handleEmployeeClick = () => setOpenEmployee(!openEmployee);
   const handleHolidaysClick = () => setOpenHolidays(!openHolidays);
   const handleShiftsClick = () => setOpenShifts(!openShifts);
+  const handleBranchClick = () => setOpenBranch(!openBranch);
   const handleAccountClick = () => setOpenAccount(!openAccount);
   const handleDepartmentsClick = () => setOpenDepartments(!openDepartments);
 
@@ -83,7 +89,6 @@ export const Base = ({ children }) => {
     borderRadius: "20px",
   });
 
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   // Handle dropdown open
@@ -97,7 +102,10 @@ export const Base = ({ children }) => {
   };
 
   return (
-    <div className="crm-sidebar" style={{ display: "flex", paddingBottom: "10px" }}>
+    <div
+      className="crm-sidebar"
+      style={{ display: "flex", paddingBottom: "10px" }}
+    >
       <>
         <div
           className={`sidebar ${isOpen ? "open" : ""}`}
@@ -116,7 +124,7 @@ export const Base = ({ children }) => {
           >
             {isOpen ? (
               <>
-                <img src={image} style={{width:250,height:150}}/>
+                <img src={image} style={{ width: 250, height: 150 }} />
               </>
             ) : (
               <div style={{ height: "8vh" }}></div>
@@ -185,7 +193,6 @@ export const Base = ({ children }) => {
                   href="/add-employees"
                   className="list-item"
                   sx={{
-                    
                     ...getLinkStyles("/add-employees"),
                   }}
                 >
@@ -272,6 +279,21 @@ export const Base = ({ children }) => {
                   <ListItemText
                     primary={
                       <Typography variant="body2">Punch Activity</Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  button
+                  component="a"
+                  href="/work-reports"
+                  className="list-item"
+                  sx={{
+                    ...getLinkStyles("/work-reports"),
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2">Work Reports</Typography>
                     }
                   />
                 </ListItem>
@@ -398,6 +420,66 @@ export const Base = ({ children }) => {
                   <ListItemText
                     primary={
                       <Typography variant="body2">Departments List</Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Collapse>
+
+            {/* Branches Dropdown */}
+            <ListItem
+              button
+              onClick={() => {
+                handleBranchClick();
+              }}
+              component="a"
+              href={isOpen ? undefined : "/add-branch"}
+              className="list-item-main"
+            >
+              <ListItemIcon sx={{ minWidth: "35px", justifyContent: "center" }}>
+                <ApartmentIcon sx={{ color: "white", fontSize: 25 }} />
+              </ListItemIcon>
+              {isOpen && (
+                <ListItemText
+                  primary={
+                    <Typography variant="body2" sx={{ fontSize: "1.1rem" }}>
+                      Branches
+                    </Typography>
+                  }
+                />
+              )}
+              {isOpen && (openBranch ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+            </ListItem>
+
+            <Collapse in={openBranch && isOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  component="a"
+                  className="list-item"
+                  href="/add-branch"
+                  sx={{
+                    ...getLinkStyles("/add-branch"),
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2">Add Branch</Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  button
+                  component="a"
+                  href="/list-branch"
+                  className="list-item"
+                  sx={{
+                    ...getLinkStyles("/list-branch"),
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2">Branch List</Typography>
                     }
                   />
                 </ListItem>
@@ -551,7 +633,6 @@ export const Base = ({ children }) => {
         style={{
           marginLeft: isOpen ? "250px" : "51px",
           flex: 1,
-          
         }}
       >
         <div
@@ -559,7 +640,7 @@ export const Base = ({ children }) => {
           style={{
             left: isOpen ? "250px" : "60px", // Offset for sidebar
             zIndex: 10, // Keep header above content
-            backgroundColor:'#1D3853'
+            backgroundColor: "#1D3853",
           }}
         >
           <MenuIcon
@@ -589,20 +670,21 @@ export const Base = ({ children }) => {
             onClick={handleClick}
           />
           <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          sx={{ marginTop: "40px" }} // Adjust the dropdown position
-          
-        >
-          <MenuItem >Change Password</MenuItem>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-        </Menu>
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            sx={{ marginTop: "40px" }} // Adjust the dropdown position
+          >
+            <MenuItem>Change Password</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          </Menu>
         </div>
 
         <CssBaseline />
         <ToastContainer position="top-right" />
-        <section className="main" style={{ overflow: "hidden" }}>{children}</section>
+        <section className="main" style={{ overflow: "hidden" }}>
+          {children}
+        </section>
       </div>
     </div>
   );

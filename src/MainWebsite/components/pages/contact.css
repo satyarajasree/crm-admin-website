@@ -1,48 +1,35 @@
-
-.contact_page .contact_card{
+/* Scope styles to .contact_page */
+.contact_page .contact_card {
   background-color: whitesmoke;
   border-radius: 20px;
   height: 500px;
 }
-.contact_page .form{
+
+.contact_page .form {
   margin: 20px;
 }
-.contact_page .container{
- 
+
+.contact_page .container {
   gap: 20px;
 }
 
 .contact_page .names {
   display: flex;
   justify-content: space-between;
-  
 }
-
 
 .contact_page .contact_page {
   display: flex;
-   justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   gap: 20px;
-
-}
-.contact_page .part_1 {
-  background-color: whitesmoke;
-  border-radius: 20px;
-  border: 1px solid green;
-  
-}
-.contact_page .part_2 {
-  height: 100%;
-  background-color: whitesmoke;
-  border-radius: 20px;
-  border: 1px solid green;
 }
 
+.contact_page .part_1,
+.contact_page .part_2,
 .contact_page .part_3 {
   height: 100%;
   background-color: whitesmoke;
   border-radius: 20px;
   border: 1px solid green;
 }
-
