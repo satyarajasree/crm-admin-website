@@ -30,7 +30,7 @@ const ListEmployees = () => {
         const employeesWithStatus = response.data.map((emp) => ({
           ...emp,
           isActive: emp.active, // Map `active` to `isActive`
-        }));
+        })).reverse();
         setEmployees(employeesWithStatus);
         setTotalRecords(employeesWithStatus.length);
 

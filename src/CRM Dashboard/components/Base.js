@@ -675,7 +675,7 @@ export const Base = ({ children }) => {
             onClose={handleClose}
             sx={{ marginTop: "40px" }} // Adjust the dropdown position
           >
-            <MenuItem>Change Password</MenuItem>
+            <MenuItem ><a href="/change-password">Change password</a></MenuItem>
             <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </div>
