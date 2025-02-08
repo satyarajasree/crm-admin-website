@@ -247,7 +247,7 @@ export const EmployeePunchActivity = () => {
                     <th>Punch-in Image</th>
                     <th>Punch-out Time</th>
                     <th>Punch-out Image</th>
-                    <th>Login Time</th>
+                    <th>Login Time (hrs:mins)</th>
                     <th>Work Report</th>
                     <th>Actions</th>
                   </tr>

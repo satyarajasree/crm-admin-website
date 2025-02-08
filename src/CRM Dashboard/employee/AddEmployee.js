@@ -63,6 +63,7 @@ export const AddEmployee = () => {
       try {
         const response = await api.get(`${API_BASE_URL}/crm/admin/branches`);
         setBranch(response.data);
+        
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
@@ -82,7 +83,7 @@ export const AddEmployee = () => {
     };
 
     fetchDepartments();
-  }, [api]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -183,7 +184,7 @@ export const AddEmployee = () => {
         text: `Employee ID: ${response.data.id}`,
         icon: "success",
       });
-      console.log(formData);
+      
     } catch (error) {
       console.error("Error adding employee:", error);
       Swal.fire({
@@ -557,9 +558,9 @@ export const AddEmployee = () => {
                   <option value="" disabled>
                     Select Department
                   </option>
-                  {departments.map((shift) => (
-                    <option key={shift.id} value={shift.id}>
-                      {shift.department}
+                  {departments.map((dept) => (
+                    <option key={dept.id} value={dept.id}>
+                     {dept.department}
                     </option>
                   ))}
                 </select>
