@@ -97,7 +97,7 @@ export const CrmDashboard = () => {
                 underline="hover"
                 key="2"
                 color="inherit"
-                href="/material-ui/getting-started/installation/"
+                href="/dashboard"
               >
                 Dashboard
               </Link>

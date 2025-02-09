@@ -8,7 +8,7 @@ import useAxios from "../auth/useAxios";
 import { API_BASE_URL } from "../auth/Api";
 import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress for loading spinner
 
-const MAX_FILE_SIZE_MB = 1; // Maximum file size in MB
+const MAX_FILE_SIZE_MB = 5; // Maximum file size in MB
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert to bytes
 
 // Country codes data
