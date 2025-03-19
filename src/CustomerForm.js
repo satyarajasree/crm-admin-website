@@ -1,85 +1,83 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const RegisterCustomer = () => {
-    const [formData, setFormData] = useState({
-        customerName: '',
-        fatherName: '',
-        dateOfBirth: '',
-        age: '',
-        aadharNumber: '',
-        mobileNumber: '',
-        email: '',
-        city: '',
-        pincode: '',
-        groupName: '',
-        panNumber: '',
-        primaryAddress: '',
-        nomineeName: '',
-        occupation: '',
-        employeeId: '',
-    });
-    const [profileImage, setProfileImage] = useState(null);
-    const [response, setResponse] = useState('');
+const CustomerForm = () => {
+  const [properties, setProperties] = useState([]);
+  const [error, setError] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken"); // Retrieve JWT token from localStorage
+        const response = await axios.get(
+          "http://localhost:8080/main/admin/get-all-customer-properties",
+          {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJNQUlOLUFETUlOIiwiaWF0IjoxNzM5NTEyNjg3LCJleHAiOjE3NDA3MjIyODd9.FE15RVb5XWqxrGJgxn1wdkv-oFcTZ-6t_QLu3hmTdBk`,
+            },
+          }
+        );
+        setProperties(response.data);
+        console.log(response.data);
+      } catch (err) {
+        setError("Failed to fetch properties");
+        console.error(err);
+      }
     };
 
-    const handleFileChange = (e) => {
-        setProfileImage(e.target.files[0]);
-    };
+    fetchProperties();
+  }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const form = new FormData();
-        Object.keys(formData).forEach((key) => {
-            form.append(key, formData[key]);
-        });
-        if (profileImage) {
-            form.append("profileImage", profileImage);
-        }
-
-        try {
-            const response = await axios.post('http://localhost:8080/v1/customer/register', form, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            setResponse(response.data);
-        } catch (error) {
-            setResponse(error.response ? error.response.data : "An error occurred");
-        }
-    };
-
-    return (
-        <div>
-            <h2>Register Customer</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="customerName" placeholder="Customer Name" value={formData.customerName} onChange={handleChange} required />
-                <input type="text" name="fatherName" placeholder="Father Name" value={formData.fatherName} onChange={handleChange} required />
-                <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
-                <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required />
-                <input type="text" name="aadharNumber" placeholder="Aadhar Number" value={formData.aadharNumber} onChange={handleChange} required />
-                <input type="tel" name="mobileNumber" placeholder="Mobile Number" value={formData.mobileNumber} onChange={handleChange} required />
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required />
-                <input type="number" name="pincode" placeholder="Pincode" value={formData.pincode} onChange={handleChange} required />
-                <input type="text" name="groupName" placeholder="Group Name" value={formData.groupName} onChange={handleChange} required />
-                <input type="text" name="panNumber" placeholder="Pan Number" value={formData.panNumber} onChange={handleChange} required />
-                <input type="text" name="primaryAddress" placeholder="Primary Address" value={formData.primaryAddress} onChange={handleChange} required />
-                <input type="text" name="nomineeName" placeholder="Nominee Name" value={formData.nomineeName} onChange={handleChange} required />
-                <input type="text" name="occupation" placeholder="Occupation" value={formData.occupation} onChange={handleChange} required />
-                <input type="number" name="employeeId" placeholder="Employee ID" value={formData.employeeId} onChange={handleChange} required />
-                <input type="file" name="profileImage" onChange={handleFileChange} />
-                
-                <button type="submit">Register</button>
-            </form>
-            {response && <p>{response}</p>}
-        </div>
-    );
+  return (
+    <div>
+      <h2>Customer Properties</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer Name</th>
+            <th>Father Name</th>
+            <th>City</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Occupation</th>
+            <th>Group Name</th>
+            <th>Plot Number</th>
+            <th>Plot Direction</th>
+            <th>Plot Amount</th>
+            <th>Passbook</th>
+            <th>Purchase Date</th>
+            <th>Amount Paid</th>
+            <th>EMI Paid</th>
+            <th>Remaining Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {properties.map((property) => (
+            <tr key={property.id}>
+              <td>{property.id}</td>
+              <td>{property.customer?.customerName}</td>
+              <td>{property.customer?.fatherName}</td>
+              <td>{property.customer?.city}</td>
+              <td>{property.customer?.email}</td>
+              <td>{property.customer?.mobileNumber}</td>
+              <td>{property.customer?.occupation}</td>
+              <td>{property.customer?.groupName}</td>
+              <td>{property.plots?.plotNumber}</td>
+              <td>{property.plots?.plotDirection}</td>
+              <td>{property.plots?.plotAmount}</td>
+              <td>{property.passbook}</td>
+              <td>{new Date(property.purchaseDate).toLocaleDateString()}</td>
+              <td>{property.emiDetails?.amountPaid}</td>
+              <td>{property.emiDetails?.emiPaid}</td>
+              <td>{property.emiDetails?.remainingAmount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
-export default RegisterCustomer;
+export default CustomerForm;

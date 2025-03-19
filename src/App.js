@@ -7,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
 import AddEmployee from "./AddEmployee";
 import EmployeeTreeView from "./EmployeeTreeView";
+import CustomerForm from "./CustomerForm";
 
 function App() {
   return (
@@ -15,8 +16,7 @@ function App() {
         <Routes>
           <Route element={<CrmApp />} path="/*" />
           <Route element={<Home />} path="/" />
-          <Route element={<AddEmployee/>} path="/add"/>
-          <Route element={<EmployeeTreeView />} path="/list" />
+         
         </Routes>
       </BrowserRouter>
     </div>
