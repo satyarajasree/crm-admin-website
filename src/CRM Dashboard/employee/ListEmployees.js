@@ -28,49 +28,53 @@ const ListEmployees = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState(""); // New state for department filter
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [branches, setBranches] = useState([]);
-  const [departments, setDepartments] = useState([]); // New state to hold all department IDs
+  const [departments, setDepartments] = useState([]); // State to store department data
   const navigate = useNavigate();
   const api = useAxios();
 
+  // Fetch employees and departments
   useEffect(() => {
-    const fetchEmployees = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get(
-          `${API_BASE_URL}/crm/admin/crm/employees`
-        );
-        const employeesWithStatus = response.data.map((emp) => ({
+        setLoading(true);
+
+        // Fetch employees
+        const employeesResponse = await api.get(`${API_BASE_URL}/crm/admin/crm/employees`);
+        const employeesWithStatus = employeesResponse.data.map((emp) => ({
           ...emp,
           isActive: emp.active,
         }));
         setEmployees(employeesWithStatus);
         setTotalRecords(employeesWithStatus.length);
 
-        // Collect unique branches and departments from employees
+        // Collect unique branches from employees
         const uniqueBranches = [
           ...new Set(employeesWithStatus.map((emp) => emp.branch.branchName)),
         ];
         setBranches(uniqueBranches);
 
-        const uniqueDepartments = [
-          ...new Set(employeesWithStatus.map((emp) => emp.departmentId)),
-        ];
-        setDepartments(uniqueDepartments);
+        // Fetch departments
+        const departmentsResponse = await api.get(`${API_BASE_URL}/crm/admin/departments`);
+        setDepartments(departmentsResponse.data); // Store department data
+        console.log(departmentsResponse.data)
       } catch (err) {
-        setError("Error fetching employee data");
+        setError("Error fetching data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEmployees();
+    fetchData();
   }, []);
 
+  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // Handle records per page change
   const handleRecordsPerPageChange = (event) => {
     const value = Number(event.target.value);
     if (value > 0) {
@@ -79,21 +83,25 @@ const ListEmployees = () => {
     }
   };
 
+  // Handle search query change
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1);
   };
 
+  // Handle branch filter change
   const handleBranchChange = (event) => {
     setSelectedBranch(event.target.value);
     setCurrentPage(1);
   };
 
+  // Handle department filter change
   const handleDepartmentChange = (event) => {
     setSelectedDepartment(event.target.value);
     setCurrentPage(1);
   };
 
+  // Filter employees based on search, branch, and department
   const filteredEmployees = employees
     .filter((emp) =>
       emp.fullName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -105,6 +113,7 @@ const ListEmployees = () => {
       selectedDepartment ? emp.departmentId === selectedDepartment : true
     );
 
+  // Pagination logic
   const indexOfLastEmployee = currentPage * recordsPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - recordsPerPage;
   const currentEmployees = filteredEmployees.slice(
@@ -113,10 +122,12 @@ const ListEmployees = () => {
   );
   const totalFilteredRecords = filteredEmployees.length;
 
+  // Handle view details
   const handleViewDetails = (empId) => {
     navigate(`/employee-details/${empId}`);
   };
 
+  // Download Excel
   const downloadExcel = () => {
     const sheetData = employees.map((emp) => ({
       "Full Name": emp.fullName,
@@ -133,6 +144,12 @@ const ListEmployees = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
 
     XLSX.writeFile(workbook, "Employees_List.xlsx");
+  };
+
+  // Get department name by ID
+  const getDepartmentNameById = (departmentId) => {
+    const department = departments.find((dept) => dept.id === departmentId);
+    return department ? department.department : "N/A"; // Return department name or "N/A" if not found
   };
 
   return (
@@ -270,9 +287,9 @@ const ListEmployees = () => {
                 label="Filter by Department"
               >
                 <MenuItem value="">All Departments</MenuItem>
-                {departments.map((department, index) => (
-                  <MenuItem key={index} value={department}>
-                    {department}
+                {departments.map((dept) => (
+                  <MenuItem key={dept.id} value={dept.id}>
+                    {dept.department}
                   </MenuItem>
                 ))}
               </Select>
@@ -299,6 +316,7 @@ const ListEmployees = () => {
                   <th>Address</th>
                   <th>Status</th>
                   <th>Branch Name</th>
+                  <th>Department</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -320,10 +338,6 @@ const ListEmployees = () => {
                           <span className="fw-bold">Mobile: </span>
                           {emp.mobile}
                         </li>
-                        <li>
-                          <span className="fw-bold">Department: </span>
-                          {emp.departmentId}
-                        </li>
                       </ul>
                     </td>
                     <td>{emp.address}</td>
@@ -334,6 +348,7 @@ const ListEmployees = () => {
                       {emp.isActive ? "Active" : "InActive"}
                     </td>
                     <td>{emp.branch.branchName}</td>
+                    <td>{getDepartmentNameById(emp.departmentId)}</td>
                     <td>
                       <button
                         className="btn btn-dark"
