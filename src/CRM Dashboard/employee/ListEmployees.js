@@ -129,13 +129,13 @@ const ListEmployees = () => {
 
   // Download Excel
   const downloadExcel = () => {
-    const sheetData = employees.map((emp) => ({
+    const sheetData = filteredEmployees.map((emp) => ({
       "Full Name": emp.fullName,
       Email: emp.email,
       Mobile: emp.mobile,
       Address: emp.address,
       Status: emp.isActive ? "Active" : "Inactive",
-      "Branch Name": emp.branchName,
+      "Branch Name": emp.branch.branchName,
       Designation: emp.jobTitle,
     }));
 
