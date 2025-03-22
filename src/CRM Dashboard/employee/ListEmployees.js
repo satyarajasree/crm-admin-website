@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Base } from "../components/Base";
-import { Breadcrumbs, Button, Link, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  Link,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import "../styles/table.css";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -18,28 +27,36 @@ const ListEmployees = () => {
   const [recordsPerPage, setRecordsPerPage] = useState(15);
   const [totalRecords, setTotalRecords] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedBranch, setSelectedBranch] = useState(""); // New state to track selected branch
-  const [branches, setBranches] = useState([]); // State to hold all branch names
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState(""); // New state for department filter
+  const [branches, setBranches] = useState([]);
+  const [departments, setDepartments] = useState([]); // New state to hold all department IDs
   const navigate = useNavigate();
   const api = useAxios();
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await api.get(`${API_BASE_URL}/crm/admin/crm/employees`);
+        const response = await api.get(
+          `${API_BASE_URL}/crm/admin/crm/employees`
+        );
         const employeesWithStatus = response.data.map((emp) => ({
           ...emp,
-          isActive: emp.active, // Map `active` to `isActive`
+          isActive: emp.active,
         }));
         setEmployees(employeesWithStatus);
         setTotalRecords(employeesWithStatus.length);
 
-        // Collect unique branches from employees
+        // Collect unique branches and departments from employees
         const uniqueBranches = [
           ...new Set(employeesWithStatus.map((emp) => emp.branch.branchName)),
         ];
         setBranches(uniqueBranches);
-       
+
+        const uniqueDepartments = [
+          ...new Set(employeesWithStatus.map((emp) => emp.departmentId)),
+        ];
+        setDepartments(uniqueDepartments);
       } catch (err) {
         setError("Error fetching employee data");
       } finally {
@@ -50,8 +67,8 @@ const ListEmployees = () => {
     fetchEmployees();
   }, []);
 
-  const handlePageChange = (event) => {
-    setCurrentPage(Number(event.target.value));
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   const handleRecordsPerPageChange = (event) => {
@@ -72,11 +89,21 @@ const ListEmployees = () => {
     setCurrentPage(1);
   };
 
+  const handleDepartmentChange = (event) => {
+    setSelectedDepartment(event.target.value);
+    setCurrentPage(1);
+  };
+
   const filteredEmployees = employees
     .filter((emp) =>
       emp.fullName.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .filter((emp) => (selectedBranch ? emp.branch.branchName === selectedBranch : true));
+    .filter((emp) =>
+      selectedBranch ? emp.branch.branchName === selectedBranch : true
+    )
+    .filter((emp) =>
+      selectedDepartment ? emp.departmentId === selectedDepartment : true
+    );
 
   const indexOfLastEmployee = currentPage * recordsPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - recordsPerPage;
@@ -111,34 +138,77 @@ const ListEmployees = () => {
   return (
     <Base>
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "70px",
+          }}
+        >
           <ClipLoader color="darkslategrey" size={50} />
         </div>
       ) : error ? (
         <div>{error}</div>
       ) : (
         <>
-          <div className="pt-3 mt-5" style={{ display: "flex", justifyContent: "flex-end", paddingRight: "20px" }}>
-            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-              <Link underline="hover" key="1" color="inherit" href="/dashboard" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+          <div
+            className="pt-3 mt-5"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              paddingRight: "20px",
+            }}
+          >
+            <Breadcrumbs
+              separator={<NavigateNextIcon fontSize="small" />}
+              aria-label="breadcrumb"
+            >
+              <Link
+                underline="hover"
+                key="1"
+                color="inherit"
+                href="/dashboard"
+                sx={{ color: "darkslategrey", fontWeight: "bold" }}
+              >
                 Home
               </Link>
-              <Link underline="none" key="2" color="inherit" href="/list-employees" sx={{ color: "darkslategrey", fontWeight: "bold" }}>
+              <Link
+                underline="none"
+                key="2"
+                color="inherit"
+                href="/list-employees"
+                sx={{ color: "darkslategrey", fontWeight: "bold" }}
+              >
                 Employees
               </Link>
             </Breadcrumbs>
           </div>
 
-          <h2 className="text-center fw-bold" style={{ color: "#0DD354" }}>Employees List</h2>
+          <h2 className="text-center fw-bold" style={{ color: "#0DD354" }}>
+            Employees List
+          </h2>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <hr style={{ width: "90%" }} />
           </div>
 
           <div className="container">
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-              <FormControl size="small" style={{ width: "150px", marginRight: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <FormControl
+                size="small"
+                style={{ width: "150px", marginRight: "10px" }}
+              >
                 <InputLabel>Records per page</InputLabel>
-                <Select value={recordsPerPage} onChange={handleRecordsPerPageChange} label="Records per page">
+                <Select
+                  value={recordsPerPage}
+                  onChange={handleRecordsPerPageChange}
+                  label="Records per page"
+                >
                   {[5, 10, 15, 20, 25].map((item) => (
                     <MenuItem key={item} value={item}>
                       {item}
@@ -157,19 +227,52 @@ const ListEmployees = () => {
               />
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
               <div>Total Records: {totalRecords}</div>
               <div>Matching Results: {totalFilteredRecords}</div>
             </div>
 
             {/* Branch filter dropdown */}
-            <FormControl size="small" style={{ width: "150px", marginBottom: "20px" }}>
+            <FormControl
+              size="small"
+              style={{ width: "150px", marginBottom: "20px" }}
+            >
               <InputLabel>Filter by Branch</InputLabel>
-              <Select value={selectedBranch} onChange={handleBranchChange} label="Filter by Branch">
+              <Select
+                value={selectedBranch}
+                onChange={handleBranchChange}
+                label="Filter by Branch"
+              >
                 <MenuItem value="">All Branches</MenuItem>
                 {branches.map((branch, index) => (
                   <MenuItem key={index} value={branch}>
                     {branch}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Department filter dropdown */}
+            <FormControl
+              size="small"
+              style={{ width: "150px", marginBottom: "20px", marginLeft: "10px" }}
+            >
+              <InputLabel>Filter by Department</InputLabel>
+              <Select
+                value={selectedDepartment}
+                onChange={handleDepartmentChange}
+                label="Filter by Department"
+              >
+                <MenuItem value="">All Departments</MenuItem>
+                {departments.map((department, index) => (
+                  <MenuItem key={index} value={department}>
+                    {department}
                   </MenuItem>
                 ))}
               </Select>
@@ -186,7 +289,10 @@ const ListEmployees = () => {
             </Button>
 
             <table className="table">
-              <thead className="text-white text-center bg-dark" style={{ backgroundColor: "#28a6a5" }}>
+              <thead
+                className="text-white text-center bg-dark"
+                style={{ backgroundColor: "#28a6a5" }}
+              >
                 <tr>
                   <th>S.No</th>
                   <th>Full Name</th>
@@ -202,13 +308,29 @@ const ListEmployees = () => {
                     <td>{indexOfFirstEmployee + index + 1}</td>
                     <td>
                       <ul style={{ listStyle: "none" }}>
-                        <li><span className="fw-bold">Full Name: </span>{emp.fullName}</li>
-                        <li><span className="fw-bold">Email: </span>{emp.email}</li>
-                        <li><span className="fw-bold">Mobile: </span>{emp.mobile}</li>
+                        <li>
+                          <span className="fw-bold">Full Name: </span>
+                          {emp.fullName}
+                        </li>
+                        <li>
+                          <span className="fw-bold">Email: </span>
+                          {emp.email}
+                        </li>
+                        <li>
+                          <span className="fw-bold">Mobile: </span>
+                          {emp.mobile}
+                        </li>
+                        <li>
+                          <span className="fw-bold">Department: </span>
+                          {emp.departmentId}
+                        </li>
                       </ul>
                     </td>
                     <td>{emp.address}</td>
-                    <td className="fw-bold" style={{ color: emp.isActive ? "green" : "red" }}>
+                    <td
+                      className="fw-bold"
+                      style={{ color: emp.isActive ? "green" : "red" }}
+                    >
                       {emp.isActive ? "Active" : "InActive"}
                     </td>
                     <td>{emp.branch.branchName}</td>
@@ -227,17 +349,62 @@ const ListEmployees = () => {
             </table>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px", marginRight: "100px" }}>
-            <FormControl size="small" style={{ width: "150px" }}>
-              <InputLabel>Page</InputLabel>
-              <Select value={currentPage} onChange={handlePageChange} label="Page">
-                {Array.from({ length: Math.ceil(totalFilteredRecords / recordsPerPage) }, (_, index) => (
-                  <MenuItem key={index + 1} value={index + 1}>
-                    {index + 1}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{
+                marginRight: "10px",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+              className="btn btn-primary"
+            >
+              Previous
+            </button>
+
+            {Array.from(
+              { length: Math.ceil(totalFilteredRecords / recordsPerPage) },
+              (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => handlePageChange(index + 1)}
+                  style={{
+                    margin: "0 5px",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                    backgroundColor:
+                      currentPage === index + 1 ? "#007bff" : "white",
+                    color: currentPage === index + 1 ? "white" : "black",
+                    border: "1px solid #007bff",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {index + 1}
+                </button>
+              )
+            )}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={
+                currentPage === Math.ceil(totalFilteredRecords / recordsPerPage)
+              }
+              style={{
+                marginLeft: "10px",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+              className="btn btn-primary"
+            >
+              Next
+            </button>
           </div>
         </>
       )}
