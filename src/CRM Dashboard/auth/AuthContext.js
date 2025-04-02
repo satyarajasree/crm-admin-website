@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('jwtToken', newToken);
 
         const decoded = decodeToken(newToken);
-        console.log("Decoded Token:", decoded); // Log the entire decoded token for debugging
+        
         if (decoded && decoded.sub) {
             setUsername(decoded.sub); // Extract username from the 'sub' field of the token
         }
@@ -54,7 +54,8 @@ export const AuthProvider = ({ children }) => {
         const storedToken = localStorage.getItem('jwtToken');
         if (storedToken) {
             const decoded = decodeToken(storedToken);
-            console.log("Decoded Token from localStorage:", decoded); // Log for debugging
+        
+            
             if (decoded && decoded.sub) {
                 setUsername(decoded.sub); // Set username from 'sub' field
             }

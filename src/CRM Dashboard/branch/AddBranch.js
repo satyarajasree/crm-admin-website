@@ -35,8 +35,6 @@ export const AddBranch = () => {
       setBranchName("");
       setBranchDescription("");
       setLoading(false); // Stop loading after response
-
-      console.log(response.data);
       Swal.fire({
         title: `${branchName} added successfully`,
         text: `${branchDescription}`,

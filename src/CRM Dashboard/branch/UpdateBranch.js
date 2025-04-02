@@ -48,8 +48,6 @@ export const UpdateBranch = () => {
       branchDescription
     };
 
-    console.log("Submitted Data:", holidayData);
-
     try {
       const response = await api.put(
         `${API_BASE_URL}/crm/admin/update-branch/${id}`, // Assuming an update endpoint exists
